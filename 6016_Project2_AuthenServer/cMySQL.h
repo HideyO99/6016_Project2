@@ -6,7 +6,7 @@
 #include "jdbc/cppconn/statement.h"
 #include "jdbc/cppconn/prepared_statement.h"
 #include "jdbc/cppconn/resultset.h"
-#include <bcrypt.h>
+#include <hash-library/sha256.h>
 
 #define HOST		"127.0.0.1:3306"
 #define USERNAME	"yo"
@@ -21,6 +21,8 @@ public:
 	bool Connect();
 	void Disconnect();
 	
+	void genSalt();
+	void calHash();
 
 private:
 	sql::Driver* pDriver;
