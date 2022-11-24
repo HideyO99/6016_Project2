@@ -1,26 +1,53 @@
-syntax = "proto3";
+syntax = "proto2";
 
-package tutorial;
+package AuthProtocol;
 
-message Person {
-  required string name = 1;
-  required int32 id = 2;
-  optional string email = 3;
-
-  enum PhoneType {
-    MOBILE = 0;
-    HOME = 1;
-    WORK = 2;
-  }
-
-  message PhoneNumber {
-    required string number = 1;
-    optional PhoneType type = 2 [default = HOME];
-  }
-
-  repeated PhoneNumber phone = 4;
+message CreateAccountWeb
+{
+    required int64 requestID = 1;
+    required string email = 2;
+    required string passwd = 3;
 }
 
-message AddressBook {
-  repeated Person person = 1;
+message CreateAccountWebSuccess
+{
+    required int64 requestID = 1;
+    required int64 userID = 2;
 }
+
+message CreateAccountWebFailure 
+{
+    required int64 requestId = 1;
+    enum reason 
+    {
+        ACCOUNT_ALREADY_EXISTS = 0;
+        INVALID_PASSWORD = 1;
+        INTERNAL_SERVER_ERROR = 2;
+    }
+    repeated reason Fail_reason = 2;
+}
+
+message AuthenticateWeb 
+{
+    required int64 requestId = 1;
+    required string email = 2;
+    required string passwd = 3;
+}
+
+message AuthenticateWebSuccess {
+    required int64 requestId = 1;
+    required int64 userId = 2;
+    required string creationDate = 3;
+}
+
+message AuthenticateWebFailure {
+    required int64 requestId = 1;
+    enum reason 
+    {
+        INVALID_CREDENTIALS = 0;
+        INTERNAL_SERVER_ERROR = 1;
+    }
+    repeated reason Fail_reason = 2;
+}
+    
+    
