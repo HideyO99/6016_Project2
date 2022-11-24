@@ -1,6 +1,6 @@
 #include <iostream>
-#include "cMySQL.h"
-#include "sCredential.h"
+#include "MySQL/cMySQL.h"
+
 
 int main(int argc, char** argv)
 {

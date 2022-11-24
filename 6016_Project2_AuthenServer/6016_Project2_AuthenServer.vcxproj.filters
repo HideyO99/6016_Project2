@@ -19,33 +19,42 @@
     <Filter Include="ProtoBuf">
       <UniqueIdentifier>{015fde6e-089a-4a9a-b6f6-d05131118a4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TCP">
+      <UniqueIdentifier>{e191d13f-e65d-40d2-9b44-52b360483343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MySQL">
+      <UniqueIdentifier>{db9dd2c1-9ecf-4fbc-8bf3-6325b7ad9553}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sCredential.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="source\TCP\cTCP.h">
+      <Filter>TCP</Filter>
     </ClInclude>
-    <ClInclude Include="cMySQL.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="source\MySQL\cMySQL.h">
+      <Filter>MySQL</Filter>
     </ClInclude>
-    <ClInclude Include="hash-library\sha256.h">
-      <Filter>SHA256</Filter>
-    </ClInclude>
-    <ClInclude Include="protobuf\AuthProtocol.pb.h">
+    <ClInclude Include="source\protobuf\AuthProtocol.pb.h">
       <Filter>ProtoBuf</Filter>
+    </ClInclude>
+    <ClInclude Include="source\hash-library\sha256.h">
+      <Filter>SHA256</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="source\TCP\cTCP.cpp">
+      <Filter>TCP</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MySQL\cMySQL.cpp">
+      <Filter>MySQL</Filter>
+    </ClCompile>
+    <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cMySQL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="hash-library\sha256.cpp">
-      <Filter>SHA256</Filter>
-    </ClCompile>
-    <ClCompile Include="protobuf\AuthProtocol.pb.cc">
+    <ClCompile Include="source\protobuf\AuthProtocol.pb.cc">
       <Filter>ProtoBuf</Filter>
+    </ClCompile>
+    <ClCompile Include="source\hash-library\sha256.cpp">
+      <Filter>SHA256</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

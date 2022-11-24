@@ -139,16 +139,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="cMySQL.h" />
-    <ClInclude Include="hash-library\sha256.h" />
-    <ClInclude Include="protobuf\AuthProtocol.pb.h" />
-    <ClInclude Include="sCredential.h" />
+    <ClInclude Include="source\hash-library\sha256.h" />
+    <ClInclude Include="source\MySQL\cMySQL.h" />
+    <ClInclude Include="source\protobuf\AuthProtocol.pb.h" />
+    <ClInclude Include="source\TCP\cTCP.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cMySQL.cpp" />
-    <ClCompile Include="hash-library\sha256.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="protobuf\AuthProtocol.pb.cc" />
+    <ClCompile Include="source\hash-library\sha256.cpp" />
+    <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\MySQL\cMySQL.cpp" />
+    <ClCompile Include="source\protobuf\AuthProtocol.pb.cc" />
+    <ClCompile Include="source\TCP\cTCP.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
