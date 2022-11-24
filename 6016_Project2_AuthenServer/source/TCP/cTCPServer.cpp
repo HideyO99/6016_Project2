@@ -62,7 +62,7 @@ int cTCPServer::TCP_Run()
 			
 			if (FD_ISSET(client.socket,&socketsReadyForReading))
 			{
-				//todo
+			
 				const int buflen = 128;
 				char buf[buflen];
 
@@ -76,49 +76,88 @@ int cTCPServer::TCP_Run()
 				AuthProtocol::Request reqMSG;
 				AuthProtocol::Response replyMSG;
 				bool result = reqMSG.ParseFromString(buf);
-				cMySQL sql;
 				if (!result)
 				{
 					std::cout << "Failed to parse message" << std::endl;
 					return 1;
 				}
 
-				switch (reqMSG.cmd())
-				{
-				case AuthProtocol::Request::CMD_TYPE::Request_CMD_TYPE_AUTHENTICATE:
-					result = sql.userAuthen(reqMSG.authen().email().c_str(), reqMSG.authen().passwd().c_str());
-					break;
-				case AuthProtocol::Request::CMD_TYPE::Request_CMD_TYPE_CREATE_ACCOUNT:
-					result = sql.createNewAccount(reqMSG.createacc().email().c_str(), reqMSG.createacc().passwd().c_str());
-					break;
-				}
+				cMySQL sql;
 
+				const AuthProtocol::AuthenticateWeb& Authen_req = reqMSG.authen(0);
+				const AuthProtocol::CreateAccountWeb& CreateAcc_req = reqMSG.createacc(0);
 
-				replyMSG.set_requestid(reqMSG.requestid());
-				if (result)
+				if (Authen_req.has_requestid())
 				{
-					replyMSG.set_resp_msg_type(AuthProtocol::Response_Res_TYPE::Response_Res_TYPE_SUCCESS);
-				}
-				else
-				{
+					sql.Connect();
+					result = sql.userAuthen(Authen_req.email().c_str(), Authen_req.passwd().c_str());
+					sql.Disconnect();
+
 					switch (sql.status)
 					{
-					case cMySQL::cmdStatus::ACCOUNT_EXISTS:
-						replyMSG.set_resp_msg_type(AuthProtocol::Response_Res_TYPE::Response_Res_TYPE_ACCOUNT_EXISTS);
+					case cMySQL::SUCCESS:
+						{
+							AuthProtocol::AuthenticateWebSuccess* AuthenSuccess = replyMSG.add_authsuccess();
+							AuthenSuccess->set_requestid(Authen_req.requestid());
+							AuthenSuccess->set_userid(std::stoi(sql.uID));
+							AuthenSuccess->set_creationdate(sql.createDate);
+						}
 						break;
-					case cMySQL::cmdStatus::INVALID_CREDENTIAL:
-						replyMSG.set_resp_msg_type(AuthProtocol::Response_Res_TYPE::Response_Res_TYPE_INVALID_CREDENTIALS);
+					case cMySQL::INVALID_CREDENTIAL:
+						{
+							AuthProtocol::AuthenticateWebFailure* AuthenFail = replyMSG.add_authfail();
+							AuthenFail->set_requestid(Authen_req.requestid());
+							AuthenFail->set_fail_reason(AuthProtocol::AuthenticateWebFailure::INVALID_CREDENTIALS);
+						}
 						break;
-					case cMySQL::cmdStatus::INVALID_PASS:
-						replyMSG.set_resp_msg_type(AuthProtocol::Response_Res_TYPE::Response_Res_TYPE_INVALID_PASS);
-						break;
-					case cMySQL::cmdStatus::INTERNAL_SERVER_ERROR:
-						replyMSG.set_resp_msg_type(AuthProtocol::Response_Res_TYPE::Response_Res_TYPE_INTERNAL_SERVER_ERROR);
+					default:
+						{
+							AuthProtocol::AuthenticateWebFailure* AuthenFail = replyMSG.add_authfail();
+							AuthenFail->set_requestid(Authen_req.requestid());
+							AuthenFail->set_fail_reason(AuthProtocol::AuthenticateWebFailure::INTERNAL_SERVER_ERROR);
+						}
 						break;
 					}
-
 				}
+				if (CreateAcc_req.has_requestid())
+				{
+					sql.Connect();
+					result = sql.createNewAccount(CreateAcc_req.email().c_str(), CreateAcc_req.passwd().c_str());
+					sql.Disconnect();
 
+					switch (sql.status)
+					{
+					case cMySQL::SUCCESS:
+						{
+							AuthProtocol::CreateAccountWebSuccess* CreateAccSuccess = replyMSG.add_createdetail();
+							CreateAccSuccess->set_requestid(Authen_req.requestid());
+							CreateAccSuccess->set_userid(std::stoi(sql.uID));
+						}
+						break;
+					case cMySQL::ACCOUNT_EXISTS:
+						{
+							AuthProtocol::CreateAccountWebFailure* CreateAccFail = replyMSG.add_createfail();
+							CreateAccFail->set_requestid(Authen_req.requestid());
+							CreateAccFail->set_fail_reason(AuthProtocol::CreateAccountWebFailure::ACCOUNT_ALREADY_EXISTS);
+						}
+						break;
+					case cMySQL::INVALID_PASS:
+						{
+							AuthProtocol::CreateAccountWebFailure* CreateAccFail = replyMSG.add_createfail();
+							CreateAccFail->set_requestid(Authen_req.requestid());
+							CreateAccFail->set_fail_reason(AuthProtocol::CreateAccountWebFailure::INVALID_PASSWORD);
+						}
+						break;
+					default:
+						{
+							AuthProtocol::CreateAccountWebFailure* CreateAccFail = replyMSG.add_createfail();
+							CreateAccFail->set_requestid(Authen_req.requestid());
+							CreateAccFail->set_fail_reason(AuthProtocol::CreateAccountWebFailure::INTERNAL_SERVER_ERROR);
+						}
+						break;
+					}
+				}
+				
 				std::string serializedString;
 				replyMSG.SerializeToString(&serializedString);
 

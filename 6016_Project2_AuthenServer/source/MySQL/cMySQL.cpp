@@ -154,9 +154,15 @@ bool cMySQL::userAuthen(std::string email, std::string passwd)
 			status = INVALID_CREDENTIAL;
 			return false;
 		}
-		std::string u = "UPDATE user SET last_login = now() WHERE id = " + pResultSet->getString("userID");
+		uID = pResultSet->getString("userID");
+		std::string u = "UPDATE user SET last_login = now() WHERE id = " + uID;
 		pStatement = pConnection->createStatement();
 		pStatement->executeUpdate(u);
+
+		q = "SELECT creation_date FROM user WHERE id = " + uID;
+		pStatement = pConnection->createStatement();
+		pResultSet = pStatement->executeQuery(q);
+		createDate= pResultSet->getString("creation_date");
 	}
 	catch (sql::SQLException e)
 	{

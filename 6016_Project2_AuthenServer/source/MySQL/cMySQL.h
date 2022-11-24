@@ -35,6 +35,8 @@ public:
 		INTERNAL_SERVER_ERROR
 	};
 	cmdStatus status;
+	std::string uID;
+	std::string createDate;
 
 private:
 	std::string Salt_;
