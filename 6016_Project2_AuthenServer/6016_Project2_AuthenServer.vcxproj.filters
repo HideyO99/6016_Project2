@@ -14,7 +14,7 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="SHA256">
-      <UniqueIdentifier>{2755320d-68e2-4f08-8d63-0ffcaaebc74a}</UniqueIdentifier>
+      <UniqueIdentifier>{e5e55939-130c-40c9-8104-1f4fb96af543}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -24,6 +24,9 @@
     <ClInclude Include="cMySQL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="hash-library\sha256.h">
+      <Filter>SHA256</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -31,6 +34,9 @@
     </ClCompile>
     <ClCompile Include="cMySQL.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="hash-library\sha256.cpp">
+      <Filter>SHA256</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

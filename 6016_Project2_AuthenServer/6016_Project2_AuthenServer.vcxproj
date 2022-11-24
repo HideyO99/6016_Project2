@@ -138,10 +138,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="cMySQL.h" />
+    <ClInclude Include="hash-library\sha256.h" />
     <ClInclude Include="sCredential.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cMySQL.cpp" />
+    <ClCompile Include="hash-library\sha256.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
