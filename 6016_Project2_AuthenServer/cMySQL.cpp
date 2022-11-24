@@ -1,5 +1,6 @@
 #include "cMySQL.h"
 #include <iostream>
+#include "protobuf/AuthProtocol.pb.h"
 
 cMySQL::cMySQL()
 {

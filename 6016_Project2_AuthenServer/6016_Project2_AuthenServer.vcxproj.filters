@@ -16,6 +16,9 @@
     <Filter Include="SHA256">
       <UniqueIdentifier>{e5e55939-130c-40c9-8104-1f4fb96af543}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ProtoBuf">
+      <UniqueIdentifier>{015fde6e-089a-4a9a-b6f6-d05131118a4a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sCredential.h">
@@ -27,6 +30,9 @@
     <ClInclude Include="hash-library\sha256.h">
       <Filter>SHA256</Filter>
     </ClInclude>
+    <ClInclude Include="protobuf\AuthProtocol.pb.h">
+      <Filter>ProtoBuf</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -37,6 +43,9 @@
     </ClCompile>
     <ClCompile Include="hash-library\sha256.cpp">
       <Filter>SHA256</Filter>
+    </ClCompile>
+    <ClCompile Include="protobuf\AuthProtocol.pb.cc">
+      <Filter>ProtoBuf</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
