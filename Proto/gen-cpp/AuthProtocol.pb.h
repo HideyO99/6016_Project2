@@ -64,6 +64,12 @@ extern CreateAccountWebFailureDefaultTypeInternal _CreateAccountWebFailure_defau
 class CreateAccountWebSuccess;
 struct CreateAccountWebSuccessDefaultTypeInternal;
 extern CreateAccountWebSuccessDefaultTypeInternal _CreateAccountWebSuccess_default_instance_;
+class Request;
+struct RequestDefaultTypeInternal;
+extern RequestDefaultTypeInternal _Request_default_instance_;
+class Response;
+struct ResponseDefaultTypeInternal;
+extern ResponseDefaultTypeInternal _Response_default_instance_;
 }  // namespace AuthProtocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::AuthProtocol::AuthenticateWeb* Arena::CreateMaybeMessage<::AuthProtocol::AuthenticateWeb>(Arena*);
@@ -72,6 +78,8 @@ template<> ::AuthProtocol::AuthenticateWebSuccess* Arena::CreateMaybeMessage<::A
 template<> ::AuthProtocol::CreateAccountWeb* Arena::CreateMaybeMessage<::AuthProtocol::CreateAccountWeb>(Arena*);
 template<> ::AuthProtocol::CreateAccountWebFailure* Arena::CreateMaybeMessage<::AuthProtocol::CreateAccountWebFailure>(Arena*);
 template<> ::AuthProtocol::CreateAccountWebSuccess* Arena::CreateMaybeMessage<::AuthProtocol::CreateAccountWebSuccess>(Arena*);
+template<> ::AuthProtocol::Request* Arena::CreateMaybeMessage<::AuthProtocol::Request>(Arena*);
+template<> ::AuthProtocol::Response* Arena::CreateMaybeMessage<::AuthProtocol::Response>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace AuthProtocol {
 
@@ -121,6 +129,55 @@ inline bool AuthenticateWebFailure_reason_Parse(
     ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, AuthenticateWebFailure_reason* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<AuthenticateWebFailure_reason>(
     AuthenticateWebFailure_reason_descriptor(), name, value);
+}
+enum Request_CMD_TYPE : int {
+  Request_CMD_TYPE_CREATE_ACCOUNT = 0,
+  Request_CMD_TYPE_AUTHENTICATE = 1
+};
+bool Request_CMD_TYPE_IsValid(int value);
+constexpr Request_CMD_TYPE Request_CMD_TYPE_CMD_TYPE_MIN = Request_CMD_TYPE_CREATE_ACCOUNT;
+constexpr Request_CMD_TYPE Request_CMD_TYPE_CMD_TYPE_MAX = Request_CMD_TYPE_AUTHENTICATE;
+constexpr int Request_CMD_TYPE_CMD_TYPE_ARRAYSIZE = Request_CMD_TYPE_CMD_TYPE_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Request_CMD_TYPE_descriptor();
+template<typename T>
+inline const std::string& Request_CMD_TYPE_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, Request_CMD_TYPE>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function Request_CMD_TYPE_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    Request_CMD_TYPE_descriptor(), enum_t_value);
+}
+inline bool Request_CMD_TYPE_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, Request_CMD_TYPE* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<Request_CMD_TYPE>(
+    Request_CMD_TYPE_descriptor(), name, value);
+}
+enum Response_Res_TYPE : int {
+  Response_Res_TYPE_SUCCESS = 0,
+  Response_Res_TYPE_INVALID_CREDENTIALS = 1,
+  Response_Res_TYPE_ACCOUNT_EXISTS = 2,
+  Response_Res_TYPE_INVALID_PASS = 3,
+  Response_Res_TYPE_INTERNAL_SERVER_ERROR = 4
+};
+bool Response_Res_TYPE_IsValid(int value);
+constexpr Response_Res_TYPE Response_Res_TYPE_Res_TYPE_MIN = Response_Res_TYPE_SUCCESS;
+constexpr Response_Res_TYPE Response_Res_TYPE_Res_TYPE_MAX = Response_Res_TYPE_INTERNAL_SERVER_ERROR;
+constexpr int Response_Res_TYPE_Res_TYPE_ARRAYSIZE = Response_Res_TYPE_Res_TYPE_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Response_Res_TYPE_descriptor();
+template<typename T>
+inline const std::string& Response_Res_TYPE_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, Response_Res_TYPE>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function Response_Res_TYPE_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    Response_Res_TYPE_descriptor(), enum_t_value);
+}
+inline bool Response_Res_TYPE_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, Response_Res_TYPE* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<Response_Res_TYPE>(
+    Response_Res_TYPE_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -665,26 +722,9 @@ class CreateAccountWebFailure final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kFailReasonFieldNumber = 2,
     kRequestIdFieldNumber = 1,
+    kFailReasonFieldNumber = 2,
   };
-  // repeated .AuthProtocol.CreateAccountWebFailure.reason Fail_reason = 2;
-  int fail_reason_size() const;
-  private:
-  int _internal_fail_reason_size() const;
-  public:
-  void clear_fail_reason();
-  private:
-  ::AuthProtocol::CreateAccountWebFailure_reason _internal_fail_reason(int index) const;
-  void _internal_add_fail_reason(::AuthProtocol::CreateAccountWebFailure_reason value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* _internal_mutable_fail_reason();
-  public:
-  ::AuthProtocol::CreateAccountWebFailure_reason fail_reason(int index) const;
-  void set_fail_reason(int index, ::AuthProtocol::CreateAccountWebFailure_reason value);
-  void add_fail_reason(::AuthProtocol::CreateAccountWebFailure_reason value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& fail_reason() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_fail_reason();
-
   // required int64 requestId = 1;
   bool has_requestid() const;
   private:
@@ -698,9 +738,25 @@ class CreateAccountWebFailure final :
   void _internal_set_requestid(int64_t value);
   public:
 
+  // required .AuthProtocol.CreateAccountWebFailure.reason Fail_reason = 2;
+  bool has_fail_reason() const;
+  private:
+  bool _internal_has_fail_reason() const;
+  public:
+  void clear_fail_reason();
+  ::AuthProtocol::CreateAccountWebFailure_reason fail_reason() const;
+  void set_fail_reason(::AuthProtocol::CreateAccountWebFailure_reason value);
+  private:
+  ::AuthProtocol::CreateAccountWebFailure_reason _internal_fail_reason() const;
+  void _internal_set_fail_reason(::AuthProtocol::CreateAccountWebFailure_reason value);
+  public:
+
   // @@protoc_insertion_point(class_scope:AuthProtocol.CreateAccountWebFailure)
  private:
   class _Internal;
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
@@ -708,8 +764,8 @@ class CreateAccountWebFailure final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> fail_reason_;
     int64_t requestid_;
+    int fail_reason_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_AuthProtocol_2eproto;
@@ -1275,25 +1331,254 @@ class AuthenticateWebFailure final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kFailReasonFieldNumber = 2,
     kRequestIdFieldNumber = 1,
+    kFailReasonFieldNumber = 2,
   };
-  // repeated .AuthProtocol.AuthenticateWebFailure.reason Fail_reason = 2;
-  int fail_reason_size() const;
+  // required int64 requestId = 1;
+  bool has_requestid() const;
   private:
-  int _internal_fail_reason_size() const;
+  bool _internal_has_requestid() const;
+  public:
+  void clear_requestid();
+  int64_t requestid() const;
+  void set_requestid(int64_t value);
+  private:
+  int64_t _internal_requestid() const;
+  void _internal_set_requestid(int64_t value);
+  public:
+
+  // required .AuthProtocol.AuthenticateWebFailure.reason Fail_reason = 2;
+  bool has_fail_reason() const;
+  private:
+  bool _internal_has_fail_reason() const;
   public:
   void clear_fail_reason();
+  ::AuthProtocol::AuthenticateWebFailure_reason fail_reason() const;
+  void set_fail_reason(::AuthProtocol::AuthenticateWebFailure_reason value);
   private:
-  ::AuthProtocol::AuthenticateWebFailure_reason _internal_fail_reason(int index) const;
-  void _internal_add_fail_reason(::AuthProtocol::AuthenticateWebFailure_reason value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* _internal_mutable_fail_reason();
+  ::AuthProtocol::AuthenticateWebFailure_reason _internal_fail_reason() const;
+  void _internal_set_fail_reason(::AuthProtocol::AuthenticateWebFailure_reason value);
   public:
-  ::AuthProtocol::AuthenticateWebFailure_reason fail_reason(int index) const;
-  void set_fail_reason(int index, ::AuthProtocol::AuthenticateWebFailure_reason value);
-  void add_fail_reason(::AuthProtocol::AuthenticateWebFailure_reason value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& fail_reason() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_fail_reason();
+
+  // @@protoc_insertion_point(class_scope:AuthProtocol.AuthenticateWebFailure)
+ private:
+  class _Internal;
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    int64_t requestid_;
+    int fail_reason_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_AuthProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Request final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AuthProtocol.Request) */ {
+ public:
+  inline Request() : Request(nullptr) {}
+  ~Request() override;
+  explicit PROTOBUF_CONSTEXPR Request(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Request(const Request& from);
+  Request(Request&& from) noexcept
+    : Request() {
+    *this = ::std::move(from);
+  }
+
+  inline Request& operator=(const Request& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Request& operator=(Request&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
+  }
+  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Request& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Request* internal_default_instance() {
+    return reinterpret_cast<const Request*>(
+               &_Request_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  friend void swap(Request& a, Request& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Request* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Request* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Request* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Request>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const Request& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const Request& from) {
+    Request::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Request* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "AuthProtocol.Request";
+  }
+  protected:
+  explicit Request(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  typedef Request_CMD_TYPE CMD_TYPE;
+  static constexpr CMD_TYPE CREATE_ACCOUNT =
+    Request_CMD_TYPE_CREATE_ACCOUNT;
+  static constexpr CMD_TYPE AUTHENTICATE =
+    Request_CMD_TYPE_AUTHENTICATE;
+  static inline bool CMD_TYPE_IsValid(int value) {
+    return Request_CMD_TYPE_IsValid(value);
+  }
+  static constexpr CMD_TYPE CMD_TYPE_MIN =
+    Request_CMD_TYPE_CMD_TYPE_MIN;
+  static constexpr CMD_TYPE CMD_TYPE_MAX =
+    Request_CMD_TYPE_CMD_TYPE_MAX;
+  static constexpr int CMD_TYPE_ARRAYSIZE =
+    Request_CMD_TYPE_CMD_TYPE_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  CMD_TYPE_descriptor() {
+    return Request_CMD_TYPE_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& CMD_TYPE_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, CMD_TYPE>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function CMD_TYPE_Name.");
+    return Request_CMD_TYPE_Name(enum_t_value);
+  }
+  static inline bool CMD_TYPE_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
+      CMD_TYPE* value) {
+    return Request_CMD_TYPE_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCreateAccFieldNumber = 3,
+    kAuthenFieldNumber = 4,
+    kRequestIdFieldNumber = 1,
+    kCmdFieldNumber = 2,
+  };
+  // optional .AuthProtocol.CreateAccountWeb createAcc = 3;
+  bool has_createacc() const;
+  private:
+  bool _internal_has_createacc() const;
+  public:
+  void clear_createacc();
+  const ::AuthProtocol::CreateAccountWeb& createacc() const;
+  PROTOBUF_NODISCARD ::AuthProtocol::CreateAccountWeb* release_createacc();
+  ::AuthProtocol::CreateAccountWeb* mutable_createacc();
+  void set_allocated_createacc(::AuthProtocol::CreateAccountWeb* createacc);
+  private:
+  const ::AuthProtocol::CreateAccountWeb& _internal_createacc() const;
+  ::AuthProtocol::CreateAccountWeb* _internal_mutable_createacc();
+  public:
+  void unsafe_arena_set_allocated_createacc(
+      ::AuthProtocol::CreateAccountWeb* createacc);
+  ::AuthProtocol::CreateAccountWeb* unsafe_arena_release_createacc();
+
+  // optional .AuthProtocol.AuthenticateWeb authen = 4;
+  bool has_authen() const;
+  private:
+  bool _internal_has_authen() const;
+  public:
+  void clear_authen();
+  const ::AuthProtocol::AuthenticateWeb& authen() const;
+  PROTOBUF_NODISCARD ::AuthProtocol::AuthenticateWeb* release_authen();
+  ::AuthProtocol::AuthenticateWeb* mutable_authen();
+  void set_allocated_authen(::AuthProtocol::AuthenticateWeb* authen);
+  private:
+  const ::AuthProtocol::AuthenticateWeb& _internal_authen() const;
+  ::AuthProtocol::AuthenticateWeb* _internal_mutable_authen();
+  public:
+  void unsafe_arena_set_allocated_authen(
+      ::AuthProtocol::AuthenticateWeb* authen);
+  ::AuthProtocol::AuthenticateWeb* unsafe_arena_release_authen();
 
   // required int64 requestId = 1;
   bool has_requestid() const;
@@ -1308,9 +1593,25 @@ class AuthenticateWebFailure final :
   void _internal_set_requestid(int64_t value);
   public:
 
-  // @@protoc_insertion_point(class_scope:AuthProtocol.AuthenticateWebFailure)
+  // required .AuthProtocol.Request.CMD_TYPE cmd = 2;
+  bool has_cmd() const;
+  private:
+  bool _internal_has_cmd() const;
+  public:
+  void clear_cmd();
+  ::AuthProtocol::Request_CMD_TYPE cmd() const;
+  void set_cmd(::AuthProtocol::Request_CMD_TYPE value);
+  private:
+  ::AuthProtocol::Request_CMD_TYPE _internal_cmd() const;
+  void _internal_set_cmd(::AuthProtocol::Request_CMD_TYPE value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:AuthProtocol.Request)
  private:
   class _Internal;
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
 
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
@@ -1318,8 +1619,224 @@ class AuthenticateWebFailure final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> fail_reason_;
+    ::AuthProtocol::CreateAccountWeb* createacc_;
+    ::AuthProtocol::AuthenticateWeb* authen_;
     int64_t requestid_;
+    int cmd_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_AuthProtocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Response final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AuthProtocol.Response) */ {
+ public:
+  inline Response() : Response(nullptr) {}
+  ~Response() override;
+  explicit PROTOBUF_CONSTEXPR Response(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Response(const Response& from);
+  Response(Response&& from) noexcept
+    : Response() {
+    *this = ::std::move(from);
+  }
+
+  inline Response& operator=(const Response& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Response& operator=(Response&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
+  }
+  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Response& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Response* internal_default_instance() {
+    return reinterpret_cast<const Response*>(
+               &_Response_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  friend void swap(Response& a, Response& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Response* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Response* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Response* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Response>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const Response& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const Response& from) {
+    Response::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Response* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "AuthProtocol.Response";
+  }
+  protected:
+  explicit Response(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  typedef Response_Res_TYPE Res_TYPE;
+  static constexpr Res_TYPE SUCCESS =
+    Response_Res_TYPE_SUCCESS;
+  static constexpr Res_TYPE INVALID_CREDENTIALS =
+    Response_Res_TYPE_INVALID_CREDENTIALS;
+  static constexpr Res_TYPE ACCOUNT_EXISTS =
+    Response_Res_TYPE_ACCOUNT_EXISTS;
+  static constexpr Res_TYPE INVALID_PASS =
+    Response_Res_TYPE_INVALID_PASS;
+  static constexpr Res_TYPE INTERNAL_SERVER_ERROR =
+    Response_Res_TYPE_INTERNAL_SERVER_ERROR;
+  static inline bool Res_TYPE_IsValid(int value) {
+    return Response_Res_TYPE_IsValid(value);
+  }
+  static constexpr Res_TYPE Res_TYPE_MIN =
+    Response_Res_TYPE_Res_TYPE_MIN;
+  static constexpr Res_TYPE Res_TYPE_MAX =
+    Response_Res_TYPE_Res_TYPE_MAX;
+  static constexpr int Res_TYPE_ARRAYSIZE =
+    Response_Res_TYPE_Res_TYPE_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  Res_TYPE_descriptor() {
+    return Response_Res_TYPE_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& Res_TYPE_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, Res_TYPE>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function Res_TYPE_Name.");
+    return Response_Res_TYPE_Name(enum_t_value);
+  }
+  static inline bool Res_TYPE_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
+      Res_TYPE* value) {
+    return Response_Res_TYPE_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestIdFieldNumber = 1,
+    kRespMsgTypeFieldNumber = 2,
+  };
+  // required int64 requestId = 1;
+  bool has_requestid() const;
+  private:
+  bool _internal_has_requestid() const;
+  public:
+  void clear_requestid();
+  int64_t requestid() const;
+  void set_requestid(int64_t value);
+  private:
+  int64_t _internal_requestid() const;
+  void _internal_set_requestid(int64_t value);
+  public:
+
+  // required .AuthProtocol.Response.Res_TYPE resp_msg_type = 2;
+  bool has_resp_msg_type() const;
+  private:
+  bool _internal_has_resp_msg_type() const;
+  public:
+  void clear_resp_msg_type();
+  ::AuthProtocol::Response_Res_TYPE resp_msg_type() const;
+  void set_resp_msg_type(::AuthProtocol::Response_Res_TYPE value);
+  private:
+  ::AuthProtocol::Response_Res_TYPE _internal_resp_msg_type() const;
+  void _internal_set_resp_msg_type(::AuthProtocol::Response_Res_TYPE value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:AuthProtocol.Response)
+ private:
+  class _Internal;
+
+  // helper for ByteSizeLong()
+  size_t RequiredFieldsByteSizeFallback() const;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    int64_t requestid_;
+    int resp_msg_type_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_AuthProtocol_2eproto;
@@ -1591,49 +2108,33 @@ inline void CreateAccountWebFailure::set_requestid(int64_t value) {
   // @@protoc_insertion_point(field_set:AuthProtocol.CreateAccountWebFailure.requestId)
 }
 
-// repeated .AuthProtocol.CreateAccountWebFailure.reason Fail_reason = 2;
-inline int CreateAccountWebFailure::_internal_fail_reason_size() const {
-  return _impl_.fail_reason_.size();
+// required .AuthProtocol.CreateAccountWebFailure.reason Fail_reason = 2;
+inline bool CreateAccountWebFailure::_internal_has_fail_reason() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
 }
-inline int CreateAccountWebFailure::fail_reason_size() const {
-  return _internal_fail_reason_size();
+inline bool CreateAccountWebFailure::has_fail_reason() const {
+  return _internal_has_fail_reason();
 }
 inline void CreateAccountWebFailure::clear_fail_reason() {
-  _impl_.fail_reason_.Clear();
+  _impl_.fail_reason_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline ::AuthProtocol::CreateAccountWebFailure_reason CreateAccountWebFailure::_internal_fail_reason(int index) const {
-  return static_cast< ::AuthProtocol::CreateAccountWebFailure_reason >(_impl_.fail_reason_.Get(index));
+inline ::AuthProtocol::CreateAccountWebFailure_reason CreateAccountWebFailure::_internal_fail_reason() const {
+  return static_cast< ::AuthProtocol::CreateAccountWebFailure_reason >(_impl_.fail_reason_);
 }
-inline ::AuthProtocol::CreateAccountWebFailure_reason CreateAccountWebFailure::fail_reason(int index) const {
+inline ::AuthProtocol::CreateAccountWebFailure_reason CreateAccountWebFailure::fail_reason() const {
   // @@protoc_insertion_point(field_get:AuthProtocol.CreateAccountWebFailure.Fail_reason)
-  return _internal_fail_reason(index);
+  return _internal_fail_reason();
 }
-inline void CreateAccountWebFailure::set_fail_reason(int index, ::AuthProtocol::CreateAccountWebFailure_reason value) {
+inline void CreateAccountWebFailure::_internal_set_fail_reason(::AuthProtocol::CreateAccountWebFailure_reason value) {
   assert(::AuthProtocol::CreateAccountWebFailure_reason_IsValid(value));
-  _impl_.fail_reason_.Set(index, value);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.fail_reason_ = value;
+}
+inline void CreateAccountWebFailure::set_fail_reason(::AuthProtocol::CreateAccountWebFailure_reason value) {
+  _internal_set_fail_reason(value);
   // @@protoc_insertion_point(field_set:AuthProtocol.CreateAccountWebFailure.Fail_reason)
-}
-inline void CreateAccountWebFailure::_internal_add_fail_reason(::AuthProtocol::CreateAccountWebFailure_reason value) {
-  assert(::AuthProtocol::CreateAccountWebFailure_reason_IsValid(value));
-  _impl_.fail_reason_.Add(value);
-}
-inline void CreateAccountWebFailure::add_fail_reason(::AuthProtocol::CreateAccountWebFailure_reason value) {
-  _internal_add_fail_reason(value);
-  // @@protoc_insertion_point(field_add:AuthProtocol.CreateAccountWebFailure.Fail_reason)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>&
-CreateAccountWebFailure::fail_reason() const {
-  // @@protoc_insertion_point(field_list:AuthProtocol.CreateAccountWebFailure.Fail_reason)
-  return _impl_.fail_reason_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
-CreateAccountWebFailure::_internal_mutable_fail_reason() {
-  return &_impl_.fail_reason_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
-CreateAccountWebFailure::mutable_fail_reason() {
-  // @@protoc_insertion_point(field_mutable_list:AuthProtocol.CreateAccountWebFailure.Fail_reason)
-  return _internal_mutable_fail_reason();
 }
 
 // -------------------------------------------------------------------
@@ -1964,54 +2465,344 @@ inline void AuthenticateWebFailure::set_requestid(int64_t value) {
   // @@protoc_insertion_point(field_set:AuthProtocol.AuthenticateWebFailure.requestId)
 }
 
-// repeated .AuthProtocol.AuthenticateWebFailure.reason Fail_reason = 2;
-inline int AuthenticateWebFailure::_internal_fail_reason_size() const {
-  return _impl_.fail_reason_.size();
+// required .AuthProtocol.AuthenticateWebFailure.reason Fail_reason = 2;
+inline bool AuthenticateWebFailure::_internal_has_fail_reason() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
 }
-inline int AuthenticateWebFailure::fail_reason_size() const {
-  return _internal_fail_reason_size();
+inline bool AuthenticateWebFailure::has_fail_reason() const {
+  return _internal_has_fail_reason();
 }
 inline void AuthenticateWebFailure::clear_fail_reason() {
-  _impl_.fail_reason_.Clear();
+  _impl_.fail_reason_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline ::AuthProtocol::AuthenticateWebFailure_reason AuthenticateWebFailure::_internal_fail_reason(int index) const {
-  return static_cast< ::AuthProtocol::AuthenticateWebFailure_reason >(_impl_.fail_reason_.Get(index));
+inline ::AuthProtocol::AuthenticateWebFailure_reason AuthenticateWebFailure::_internal_fail_reason() const {
+  return static_cast< ::AuthProtocol::AuthenticateWebFailure_reason >(_impl_.fail_reason_);
 }
-inline ::AuthProtocol::AuthenticateWebFailure_reason AuthenticateWebFailure::fail_reason(int index) const {
+inline ::AuthProtocol::AuthenticateWebFailure_reason AuthenticateWebFailure::fail_reason() const {
   // @@protoc_insertion_point(field_get:AuthProtocol.AuthenticateWebFailure.Fail_reason)
-  return _internal_fail_reason(index);
+  return _internal_fail_reason();
 }
-inline void AuthenticateWebFailure::set_fail_reason(int index, ::AuthProtocol::AuthenticateWebFailure_reason value) {
+inline void AuthenticateWebFailure::_internal_set_fail_reason(::AuthProtocol::AuthenticateWebFailure_reason value) {
   assert(::AuthProtocol::AuthenticateWebFailure_reason_IsValid(value));
-  _impl_.fail_reason_.Set(index, value);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.fail_reason_ = value;
+}
+inline void AuthenticateWebFailure::set_fail_reason(::AuthProtocol::AuthenticateWebFailure_reason value) {
+  _internal_set_fail_reason(value);
   // @@protoc_insertion_point(field_set:AuthProtocol.AuthenticateWebFailure.Fail_reason)
 }
-inline void AuthenticateWebFailure::_internal_add_fail_reason(::AuthProtocol::AuthenticateWebFailure_reason value) {
-  assert(::AuthProtocol::AuthenticateWebFailure_reason_IsValid(value));
-  _impl_.fail_reason_.Add(value);
+
+// -------------------------------------------------------------------
+
+// Request
+
+// required int64 requestId = 1;
+inline bool Request::_internal_has_requestid() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  return value;
 }
-inline void AuthenticateWebFailure::add_fail_reason(::AuthProtocol::AuthenticateWebFailure_reason value) {
-  _internal_add_fail_reason(value);
-  // @@protoc_insertion_point(field_add:AuthProtocol.AuthenticateWebFailure.Fail_reason)
+inline bool Request::has_requestid() const {
+  return _internal_has_requestid();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>&
-AuthenticateWebFailure::fail_reason() const {
-  // @@protoc_insertion_point(field_list:AuthProtocol.AuthenticateWebFailure.Fail_reason)
-  return _impl_.fail_reason_;
+inline void Request::clear_requestid() {
+  _impl_.requestid_ = int64_t{0};
+  _impl_._has_bits_[0] &= ~0x00000004u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
-AuthenticateWebFailure::_internal_mutable_fail_reason() {
-  return &_impl_.fail_reason_;
+inline int64_t Request::_internal_requestid() const {
+  return _impl_.requestid_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
-AuthenticateWebFailure::mutable_fail_reason() {
-  // @@protoc_insertion_point(field_mutable_list:AuthProtocol.AuthenticateWebFailure.Fail_reason)
-  return _internal_mutable_fail_reason();
+inline int64_t Request::requestid() const {
+  // @@protoc_insertion_point(field_get:AuthProtocol.Request.requestId)
+  return _internal_requestid();
+}
+inline void Request::_internal_set_requestid(int64_t value) {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_.requestid_ = value;
+}
+inline void Request::set_requestid(int64_t value) {
+  _internal_set_requestid(value);
+  // @@protoc_insertion_point(field_set:AuthProtocol.Request.requestId)
+}
+
+// required .AuthProtocol.Request.CMD_TYPE cmd = 2;
+inline bool Request::_internal_has_cmd() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  return value;
+}
+inline bool Request::has_cmd() const {
+  return _internal_has_cmd();
+}
+inline void Request::clear_cmd() {
+  _impl_.cmd_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline ::AuthProtocol::Request_CMD_TYPE Request::_internal_cmd() const {
+  return static_cast< ::AuthProtocol::Request_CMD_TYPE >(_impl_.cmd_);
+}
+inline ::AuthProtocol::Request_CMD_TYPE Request::cmd() const {
+  // @@protoc_insertion_point(field_get:AuthProtocol.Request.cmd)
+  return _internal_cmd();
+}
+inline void Request::_internal_set_cmd(::AuthProtocol::Request_CMD_TYPE value) {
+  assert(::AuthProtocol::Request_CMD_TYPE_IsValid(value));
+  _impl_._has_bits_[0] |= 0x00000008u;
+  _impl_.cmd_ = value;
+}
+inline void Request::set_cmd(::AuthProtocol::Request_CMD_TYPE value) {
+  _internal_set_cmd(value);
+  // @@protoc_insertion_point(field_set:AuthProtocol.Request.cmd)
+}
+
+// optional .AuthProtocol.CreateAccountWeb createAcc = 3;
+inline bool Request::_internal_has_createacc() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.createacc_ != nullptr);
+  return value;
+}
+inline bool Request::has_createacc() const {
+  return _internal_has_createacc();
+}
+inline void Request::clear_createacc() {
+  if (_impl_.createacc_ != nullptr) _impl_.createacc_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const ::AuthProtocol::CreateAccountWeb& Request::_internal_createacc() const {
+  const ::AuthProtocol::CreateAccountWeb* p = _impl_.createacc_;
+  return p != nullptr ? *p : reinterpret_cast<const ::AuthProtocol::CreateAccountWeb&>(
+      ::AuthProtocol::_CreateAccountWeb_default_instance_);
+}
+inline const ::AuthProtocol::CreateAccountWeb& Request::createacc() const {
+  // @@protoc_insertion_point(field_get:AuthProtocol.Request.createAcc)
+  return _internal_createacc();
+}
+inline void Request::unsafe_arena_set_allocated_createacc(
+    ::AuthProtocol::CreateAccountWeb* createacc) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.createacc_);
+  }
+  _impl_.createacc_ = createacc;
+  if (createacc) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:AuthProtocol.Request.createAcc)
+}
+inline ::AuthProtocol::CreateAccountWeb* Request::release_createacc() {
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::AuthProtocol::CreateAccountWeb* temp = _impl_.createacc_;
+  _impl_.createacc_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::AuthProtocol::CreateAccountWeb* Request::unsafe_arena_release_createacc() {
+  // @@protoc_insertion_point(field_release:AuthProtocol.Request.createAcc)
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::AuthProtocol::CreateAccountWeb* temp = _impl_.createacc_;
+  _impl_.createacc_ = nullptr;
+  return temp;
+}
+inline ::AuthProtocol::CreateAccountWeb* Request::_internal_mutable_createacc() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  if (_impl_.createacc_ == nullptr) {
+    auto* p = CreateMaybeMessage<::AuthProtocol::CreateAccountWeb>(GetArenaForAllocation());
+    _impl_.createacc_ = p;
+  }
+  return _impl_.createacc_;
+}
+inline ::AuthProtocol::CreateAccountWeb* Request::mutable_createacc() {
+  ::AuthProtocol::CreateAccountWeb* _msg = _internal_mutable_createacc();
+  // @@protoc_insertion_point(field_mutable:AuthProtocol.Request.createAcc)
+  return _msg;
+}
+inline void Request::set_allocated_createacc(::AuthProtocol::CreateAccountWeb* createacc) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.createacc_;
+  }
+  if (createacc) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(createacc);
+    if (message_arena != submessage_arena) {
+      createacc = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, createacc, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.createacc_ = createacc;
+  // @@protoc_insertion_point(field_set_allocated:AuthProtocol.Request.createAcc)
+}
+
+// optional .AuthProtocol.AuthenticateWeb authen = 4;
+inline bool Request::_internal_has_authen() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.authen_ != nullptr);
+  return value;
+}
+inline bool Request::has_authen() const {
+  return _internal_has_authen();
+}
+inline void Request::clear_authen() {
+  if (_impl_.authen_ != nullptr) _impl_.authen_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::AuthProtocol::AuthenticateWeb& Request::_internal_authen() const {
+  const ::AuthProtocol::AuthenticateWeb* p = _impl_.authen_;
+  return p != nullptr ? *p : reinterpret_cast<const ::AuthProtocol::AuthenticateWeb&>(
+      ::AuthProtocol::_AuthenticateWeb_default_instance_);
+}
+inline const ::AuthProtocol::AuthenticateWeb& Request::authen() const {
+  // @@protoc_insertion_point(field_get:AuthProtocol.Request.authen)
+  return _internal_authen();
+}
+inline void Request::unsafe_arena_set_allocated_authen(
+    ::AuthProtocol::AuthenticateWeb* authen) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.authen_);
+  }
+  _impl_.authen_ = authen;
+  if (authen) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:AuthProtocol.Request.authen)
+}
+inline ::AuthProtocol::AuthenticateWeb* Request::release_authen() {
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::AuthProtocol::AuthenticateWeb* temp = _impl_.authen_;
+  _impl_.authen_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::AuthProtocol::AuthenticateWeb* Request::unsafe_arena_release_authen() {
+  // @@protoc_insertion_point(field_release:AuthProtocol.Request.authen)
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::AuthProtocol::AuthenticateWeb* temp = _impl_.authen_;
+  _impl_.authen_ = nullptr;
+  return temp;
+}
+inline ::AuthProtocol::AuthenticateWeb* Request::_internal_mutable_authen() {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  if (_impl_.authen_ == nullptr) {
+    auto* p = CreateMaybeMessage<::AuthProtocol::AuthenticateWeb>(GetArenaForAllocation());
+    _impl_.authen_ = p;
+  }
+  return _impl_.authen_;
+}
+inline ::AuthProtocol::AuthenticateWeb* Request::mutable_authen() {
+  ::AuthProtocol::AuthenticateWeb* _msg = _internal_mutable_authen();
+  // @@protoc_insertion_point(field_mutable:AuthProtocol.Request.authen)
+  return _msg;
+}
+inline void Request::set_allocated_authen(::AuthProtocol::AuthenticateWeb* authen) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.authen_;
+  }
+  if (authen) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(authen);
+    if (message_arena != submessage_arena) {
+      authen = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, authen, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  _impl_.authen_ = authen;
+  // @@protoc_insertion_point(field_set_allocated:AuthProtocol.Request.authen)
+}
+
+// -------------------------------------------------------------------
+
+// Response
+
+// required int64 requestId = 1;
+inline bool Response::_internal_has_requestid() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool Response::has_requestid() const {
+  return _internal_has_requestid();
+}
+inline void Response::clear_requestid() {
+  _impl_.requestid_ = int64_t{0};
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline int64_t Response::_internal_requestid() const {
+  return _impl_.requestid_;
+}
+inline int64_t Response::requestid() const {
+  // @@protoc_insertion_point(field_get:AuthProtocol.Response.requestId)
+  return _internal_requestid();
+}
+inline void Response::_internal_set_requestid(int64_t value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.requestid_ = value;
+}
+inline void Response::set_requestid(int64_t value) {
+  _internal_set_requestid(value);
+  // @@protoc_insertion_point(field_set:AuthProtocol.Response.requestId)
+}
+
+// required .AuthProtocol.Response.Res_TYPE resp_msg_type = 2;
+inline bool Response::_internal_has_resp_msg_type() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool Response::has_resp_msg_type() const {
+  return _internal_has_resp_msg_type();
+}
+inline void Response::clear_resp_msg_type() {
+  _impl_.resp_msg_type_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline ::AuthProtocol::Response_Res_TYPE Response::_internal_resp_msg_type() const {
+  return static_cast< ::AuthProtocol::Response_Res_TYPE >(_impl_.resp_msg_type_);
+}
+inline ::AuthProtocol::Response_Res_TYPE Response::resp_msg_type() const {
+  // @@protoc_insertion_point(field_get:AuthProtocol.Response.resp_msg_type)
+  return _internal_resp_msg_type();
+}
+inline void Response::_internal_set_resp_msg_type(::AuthProtocol::Response_Res_TYPE value) {
+  assert(::AuthProtocol::Response_Res_TYPE_IsValid(value));
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.resp_msg_type_ = value;
+}
+inline void Response::set_resp_msg_type(::AuthProtocol::Response_Res_TYPE value) {
+  _internal_set_resp_msg_type(value);
+  // @@protoc_insertion_point(field_set:AuthProtocol.Response.resp_msg_type)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -2038,6 +2829,16 @@ template <> struct is_proto_enum< ::AuthProtocol::AuthenticateWebFailure_reason>
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::AuthProtocol::AuthenticateWebFailure_reason>() {
   return ::AuthProtocol::AuthenticateWebFailure_reason_descriptor();
+}
+template <> struct is_proto_enum< ::AuthProtocol::Request_CMD_TYPE> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::AuthProtocol::Request_CMD_TYPE>() {
+  return ::AuthProtocol::Request_CMD_TYPE_descriptor();
+}
+template <> struct is_proto_enum< ::AuthProtocol::Response_Res_TYPE> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::AuthProtocol::Response_Res_TYPE>() {
+  return ::AuthProtocol::Response_Res_TYPE_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

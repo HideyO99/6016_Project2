@@ -26,6 +26,7 @@ bool cMySQL::Connect()
 	catch (sql::SQLException e)
 	{
 		std::cerr << "Unable to get driver instance: " << e.what() << std::endl;
+		status = INTERNAL_SERVER_ERROR;
 		return false;
 	}
 	std::cout << "Get SQL driver is done" << std::endl;
@@ -41,6 +42,7 @@ bool cMySQL::Connect()
 	catch (sql::SQLException e)
 	{
 		std::cerr << "Unable to connect DB: " << e.what() << std::endl;
+		status = INTERNAL_SERVER_ERROR;
 		return false;
 	}
 	std::cout << "Database connected " << std::endl;
@@ -57,6 +59,7 @@ void cMySQL::Disconnect()
 	catch (sql::SQLException e)
 	{
 		std::cerr << "Unable to disconnect: " << e.what() << std::endl;
+		status = INTERNAL_SERVER_ERROR;
 		return;
 	}
 	std::cout << "Database disconnected " << std::endl;
@@ -98,6 +101,7 @@ bool cMySQL::createNewAccount(std::string email,std::string passwd)
 	catch (sql::SQLException e)
 	{
 		std::cerr << "cannot create new account: " << e.what() << std::endl;
+		status = INTERNAL_SERVER_ERROR;
 		return false;
 	}
 
@@ -112,6 +116,7 @@ bool cMySQL::createNewAccount(std::string email,std::string passwd)
 	catch (sql::SQLException e)
 	{
 		std::cerr << "cannot execute create new account: " << e.what() << std::endl;
+		status = ACCOUNT_EXISTS;
 	}
 
 	try
@@ -123,6 +128,7 @@ bool cMySQL::createNewAccount(std::string email,std::string passwd)
 	{
 		std::cerr << "cannot insert creation date: " << e.what() << std::endl;
 	}
+	status = SUCCESS;
 
 	Salt_.clear();
 	Hash_.clear();
@@ -145,6 +151,8 @@ bool cMySQL::userAuthen(std::string email, std::string passwd)
 		if (Hash_.compare(pResultSet->getString("hashed_password")) != 0)
 		{
 			std::cout << "incorrect password" << std::endl;
+			status = INVALID_CREDENTIAL;
+			return false;
 		}
 		std::string u = "UPDATE user SET last_login = now() WHERE id = " + pResultSet->getString("userID");
 		pStatement = pConnection->createStatement();
@@ -153,7 +161,9 @@ bool cMySQL::userAuthen(std::string email, std::string passwd)
 	catch (sql::SQLException e)
 	{
 		std::cerr << "cannot login : " << e.what() << std::endl;
+		status = INTERNAL_SERVER_ERROR;
 		return false;
 	}
+	status = SUCCESS;
 	return true;
 }

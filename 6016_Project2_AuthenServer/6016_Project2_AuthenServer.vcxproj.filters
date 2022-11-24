@@ -27,7 +27,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\TCP\cTCP.h">
+    <ClInclude Include="source\TCP\cTCPServer.h">
       <Filter>TCP</Filter>
     </ClInclude>
     <ClInclude Include="source\MySQL\cMySQL.h">
@@ -41,7 +41,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\TCP\cTCP.cpp">
+    <ClCompile Include="source\TCP\cTCPServer.cpp">
       <Filter>TCP</Filter>
     </ClCompile>
     <ClCompile Include="source\MySQL\cMySQL.cpp">

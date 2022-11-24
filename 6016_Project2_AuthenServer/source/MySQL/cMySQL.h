@@ -26,6 +26,15 @@ public:
 	void calHash(std::string input);
 	bool createNewAccount(std::string email, std::string passwd);
 	bool userAuthen(std::string email, std::string passwd);
+	enum cmdStatus
+	{
+		SUCCESS,
+		INVALID_CREDENTIAL,
+		ACCOUNT_EXISTS,
+		INVALID_PASS,
+		INTERNAL_SERVER_ERROR
+	};
+	cmdStatus status;
 
 private:
 	std::string Salt_;
