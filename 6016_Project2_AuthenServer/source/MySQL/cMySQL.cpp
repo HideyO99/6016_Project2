@@ -88,14 +88,20 @@ void cMySQL::calHash(std::string input)
 	Hash_ = sha256(Salt_ + input).c_str();
 }
 
-bool cMySQL::createNewAccount(std::string email,std::string passwd)
+bool cMySQL::createNewAccount(int reqID, std::string email,std::string passwd)
 {
 	//Connect();
 	genSalt(passwd.length());
 	calHash(passwd.c_str());
 	try
 	{
-		pInsertStatement = pConnection->prepareStatement("INSERT INTO web_auth (email, salt, hashed_password) VALUES (?,?,?);");
+		//std::string q = "SELECT * FROM authserver WHERE email = " + email;
+		//pStatement = pConnection->createStatement();
+		//pResultSet = pStatement->executeQuery(q);
+		//if (pResultSet->getRow() != 0)
+		//	return false;
+
+		pInsertStatement = pConnection->prepareStatement("INSERT INTO web_auth (email, salt, hashed_password,userId) VALUES (?,?,?,?);");
 
 	}
 	catch (sql::SQLException e)
@@ -108,10 +114,15 @@ bool cMySQL::createNewAccount(std::string email,std::string passwd)
 	pInsertStatement->setString(1, email);
 	pInsertStatement->setString(2, Salt_);
 	pInsertStatement->setString(3, Hash_);
+	pInsertStatement->setInt64(4, reqID);
+	uID = reqID;
 	
 	try
 	{
 		pInsertStatement->execute();
+		pInsertStatement->clearAttributes();
+		pInsertStatement = nullptr;
+		//pInsertStatement->clearParameters();
 	}
 	catch (sql::SQLException e)
 	{
@@ -121,8 +132,14 @@ bool cMySQL::createNewAccount(std::string email,std::string passwd)
 
 	try
 	{
-		pStatement = pConnection->createStatement();
-		pStatement->execute("INSERT INTO user (creation_date) VALUES (now()); ");
+		pInsertStatement = pConnection->prepareStatement("INSERT INTO user (userId, creation_date) VALUES (?,now());");
+		pInsertStatement->setInt64(1, reqID);
+		pInsertStatement->execute();
+		//pStatement = pConnection->createStatement();
+		//pStatement->execute("INSERT INTO user (userId,creation_date) VALUES ("+std::to_string(reqID)+",now()); ");
+		//pResultSet = pStatement->executeQuery("SELECT id FROM web_auth WHERE email = "+email);
+		//uID = pResultSet->getInt64("id");
+		//pStatement->executeUpdate("UPDATE web_auth SET userID = "+std::to_string(uID)+" WHERE email = " + email);
 	}
 	catch (sql::SQLException e)
 	{
@@ -137,7 +154,7 @@ bool cMySQL::createNewAccount(std::string email,std::string passwd)
 	return true;
 }
 
-bool cMySQL::userAuthen(std::string email, std::string passwd)
+bool cMySQL::userAuthen(int reqID, std::string email, std::string passwd)
 {
 	//Connect();
 	try
@@ -154,7 +171,7 @@ bool cMySQL::userAuthen(std::string email, std::string passwd)
 			status = INVALID_CREDENTIAL;
 			return false;
 		}
-		uID = pResultSet->getString("userID");
+		uID = pResultSet->getInt64("userID");
 		std::string u = "UPDATE user SET last_login = now() WHERE id = " + uID;
 		pStatement = pConnection->createStatement();
 		pStatement->executeUpdate(u);

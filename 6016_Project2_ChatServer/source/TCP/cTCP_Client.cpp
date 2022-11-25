@@ -101,7 +101,7 @@ int cTCP_Client::ReceiveFromServer()
 {
 	//int result = 0;
 
-	const int rcvBuffLen = 512;
+	const int rcvBuffLen = 16348;
 	char rcvBuff[rcvBuffLen];
 
 	int recvResult = recv(ConnectSocket, rcvBuff, rcvBuffLen, 0);
@@ -112,18 +112,20 @@ int cTCP_Client::ReceiveFromServer()
 		std::cout << "Failed to parse" << std::endl;
 	}
 
-	const AuthProtocol::AuthenticateWebSuccess& authSuccess = responseFromAuthenServer.authsuccess(0);
-	const AuthProtocol::AuthenticateWebFailure& authFail = responseFromAuthenServer.authfail(0);
-	const AuthProtocol::CreateAccountWebSuccess& createAccSuccess = responseFromAuthenServer.createdetail(0);
-	const AuthProtocol::CreateAccountWebFailure& createAccFail = responseFromAuthenServer.createfail(0);
-	if (authSuccess.has_requestid())
+	//const AuthProtocol::AuthenticateWebSuccess& authSuccess = responseFromAuthenServer.authsuccess(0);
+	//const AuthProtocol::AuthenticateWebFailure& authFail = responseFromAuthenServer.authfail(0);
+	//const AuthProtocol::CreateAccountWebSuccess& createAccSuccess = responseFromAuthenServer.createdetail(0);
+	//const AuthProtocol::CreateAccountWebFailure& createAccFail = responseFromAuthenServer.createfail(0);
+	if (responseFromAuthenServer.authsuccess_size() != 0)//(authSuccess.has_requestid())
 	{
+		const AuthProtocol::AuthenticateWebSuccess& authSuccess = responseFromAuthenServer.authsuccess(0);
 		createDate = authSuccess.creationdate().c_str();
 		status = SUCCESS;
 		return 1;
 	}
-	if (authFail.has_requestid())
+	if (responseFromAuthenServer.authfail_size() != 0)//(authFail.has_requestid())
 	{
+		const AuthProtocol::AuthenticateWebFailure& authFail = responseFromAuthenServer.authfail(0);
 		switch (authFail.fail_reason())
 		{
 		case AuthProtocol::AuthenticateWebFailure_reason_INVALID_CREDENTIALS:
@@ -135,13 +137,15 @@ int cTCP_Client::ReceiveFromServer()
 		}
 		return 2;
 	}
-	if (createAccSuccess.has_requestid())
+	if (responseFromAuthenServer.createdetail_size() != 0)//(createAccSuccess.has_requestid())
 	{
+		const AuthProtocol::CreateAccountWebSuccess& createAccSuccess = responseFromAuthenServer.createdetail(0);
 		status = SUCCESS;
 		return 3;
 	}
-	if (createAccFail.has_requestid())
+	if (responseFromAuthenServer.createfail_size() != 0)//(createAccFail.has_requestid())
 	{
+		const AuthProtocol::CreateAccountWebFailure& createAccFail = responseFromAuthenServer.createfail(0);
 		switch (createAccFail.fail_reason())
 		{
 		case AuthProtocol::CreateAccountWebFailure_reason_ACCOUNT_ALREADY_EXISTS:

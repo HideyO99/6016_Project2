@@ -24,8 +24,8 @@ public:
 	
 	void genSalt(int length);
 	void calHash(std::string input);
-	bool createNewAccount(std::string email, std::string passwd);
-	bool userAuthen(std::string email, std::string passwd);
+	bool createNewAccount(int reqID, std::string email, std::string passwd);
+	bool userAuthen(int reqID, std::string email, std::string passwd);
 	enum cmdStatus
 	{
 		SUCCESS,
@@ -35,7 +35,7 @@ public:
 		INTERNAL_SERVER_ERROR
 	};
 	cmdStatus status;
-	std::string uID;
+	int uID;
 	std::string createDate;
 
 private:

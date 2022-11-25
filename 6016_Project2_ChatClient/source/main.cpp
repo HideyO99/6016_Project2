@@ -33,8 +33,11 @@ int main(int argc, char** argv)
 			ChatClient.SendToServer(cTCP_Client::CREATEACCOUNT, email, pass);
 			receiveResult = ChatClient.ReceiveFromServer();
 			if (receiveResult == 3)
+			{
 				std::cout << "account created" << std::endl;
+				result = true;
 				break;
+			}
 			switch (ChatClient.status)
 			{
 			case cTCP_Client::ACCOUNT_EXISTS:
@@ -65,8 +68,11 @@ int main(int argc, char** argv)
 			ChatClient.SendToServer(cTCP_Client::LOGIN, email, pass);
 			receiveResult = ChatClient.ReceiveFromServer();
 			if (receiveResult == 1)
+			{
 				std::cout << "login completed" << std::endl;
+				result = true;
 				break;
+			}
 			switch (ChatClient.status)
 			{
 			case cTCP_Client::INVALID_CREDENTIAL:

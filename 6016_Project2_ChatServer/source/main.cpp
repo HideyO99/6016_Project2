@@ -39,6 +39,7 @@ int main(int argc, char** argv)
 					resultFromAuthServer = AuthenClient.ReceiveFromServer();
 					
 					chatServer.responseToChatClient(resultFromAuthServer, serializedString, AuthenClient.createDate,AuthenClient.status);
+					int sendResult = send(client.socket, serializedString.c_str(), serializedString.length(), 0);
 				}
 				if (chatServer.action == cTCPServer::LOGIN)
 				{
@@ -46,8 +47,9 @@ int main(int argc, char** argv)
 					AuthenClient.SendToServer(cTCP_Client::LOGIN, chatServer.email_, chatServer.password_);
 					resultFromAuthServer = AuthenClient.ReceiveFromServer();
 					chatServer.responseToChatClient(resultFromAuthServer, serializedString, AuthenClient.createDate, AuthenClient.status);
+					int sendResult = send(client.socket, serializedString.c_str(), serializedString.length(), 0);
 				}
-				int sendResult = send(client.socket, serializedString.c_str(), serializedString.length(), 0);
+				serializedString.clear();
 			}
 		}
 		//chatServer.ReadFromClient();
