@@ -161,7 +161,7 @@ int cTCPServer::TCP_Run()
 				std::string serializedString;
 				replyMSG.SerializeToString(&serializedString);
 
-				int sendResult = send(client.socket, serializedString.c_str(), recvResult, 0);
+				int sendResult = send(client.socket, serializedString.c_str(), serializedString.length(), 0);
 			}
 
 		}

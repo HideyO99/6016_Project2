@@ -56,8 +56,8 @@ PROTOBUF_CONSTEXPR CreateAccountWebFailure::CreateAccountWebFailure(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.fail_reason_)*/{}
-  , /*decltype(_impl_.requestid_)*/int64_t{0}} {}
+  , /*decltype(_impl_.requestid_)*/int64_t{0}
+  , /*decltype(_impl_.fail_reason_)*/0} {}
 struct CreateAccountWebFailureDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CreateAccountWebFailureDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -103,8 +103,8 @@ PROTOBUF_CONSTEXPR AuthenticateWebFailure::AuthenticateWebFailure(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
   , /*decltype(_impl_._cached_size_)*/{}
-  , /*decltype(_impl_.fail_reason_)*/{}
-  , /*decltype(_impl_.requestid_)*/int64_t{0}} {}
+  , /*decltype(_impl_.requestid_)*/int64_t{0}
+  , /*decltype(_impl_.fail_reason_)*/0} {}
 struct AuthenticateWebFailureDefaultTypeInternal {
   PROTOBUF_CONSTEXPR AuthenticateWebFailureDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -114,8 +114,38 @@ struct AuthenticateWebFailureDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AuthenticateWebFailureDefaultTypeInternal _AuthenticateWebFailure_default_instance_;
+PROTOBUF_CONSTEXPR Request::Request(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.createacc_)*/{}
+  , /*decltype(_impl_.authen_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct RequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR RequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~RequestDefaultTypeInternal() {}
+  union {
+    Request _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RequestDefaultTypeInternal _Request_default_instance_;
+PROTOBUF_CONSTEXPR Response::Response(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.authsuccess_)*/{}
+  , /*decltype(_impl_.authfail_)*/{}
+  , /*decltype(_impl_.createdetail_)*/{}
+  , /*decltype(_impl_.createfail_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct ResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ResponseDefaultTypeInternal() {}
+  union {
+    Response _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ResponseDefaultTypeInternal _Response_default_instance_;
 }  // namespace AuthProtocol
-static ::_pb::Metadata file_level_metadata_AuthProtocol_2eproto[6];
+static ::_pb::Metadata file_level_metadata_AuthProtocol_2eproto[8];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_AuthProtocol_2eproto[2];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_AuthProtocol_2eproto = nullptr;
 
@@ -151,7 +181,7 @@ const uint32_t TableStruct_AuthProtocol_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::AuthProtocol::CreateAccountWebFailure, _impl_.requestid_),
   PROTOBUF_FIELD_OFFSET(::AuthProtocol::CreateAccountWebFailure, _impl_.fail_reason_),
   0,
-  ~0u,
+  1,
   PROTOBUF_FIELD_OFFSET(::AuthProtocol::AuthenticateWeb, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::AuthProtocol::AuthenticateWeb, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -185,7 +215,25 @@ const uint32_t TableStruct_AuthProtocol_2eproto::offsets[] PROTOBUF_SECTION_VARI
   PROTOBUF_FIELD_OFFSET(::AuthProtocol::AuthenticateWebFailure, _impl_.requestid_),
   PROTOBUF_FIELD_OFFSET(::AuthProtocol::AuthenticateWebFailure, _impl_.fail_reason_),
   0,
-  ~0u,
+  1,
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::AuthProtocol::Request, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::AuthProtocol::Request, _impl_.createacc_),
+  PROTOBUF_FIELD_OFFSET(::AuthProtocol::Request, _impl_.authen_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::AuthProtocol::Response, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::AuthProtocol::Response, _impl_.authsuccess_),
+  PROTOBUF_FIELD_OFFSET(::AuthProtocol::Response, _impl_.authfail_),
+  PROTOBUF_FIELD_OFFSET(::AuthProtocol::Response, _impl_.createdetail_),
+  PROTOBUF_FIELD_OFFSET(::AuthProtocol::Response, _impl_.createfail_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 9, -1, sizeof(::AuthProtocol::CreateAccountWeb)},
@@ -194,6 +242,8 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 32, 41, -1, sizeof(::AuthProtocol::AuthenticateWeb)},
   { 44, 53, -1, sizeof(::AuthProtocol::AuthenticateWebSuccess)},
   { 56, 64, -1, sizeof(::AuthProtocol::AuthenticateWebFailure)},
+  { 66, -1, -1, sizeof(::AuthProtocol::Request)},
+  { 74, -1, -1, sizeof(::AuthProtocol::Response)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -203,6 +253,8 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::AuthProtocol::_AuthenticateWeb_default_instance_._instance,
   &::AuthProtocol::_AuthenticateWebSuccess_default_instance_._instance,
   &::AuthProtocol::_AuthenticateWebFailure_default_instance_._instance,
+  &::AuthProtocol::_Request_default_instance_._instance,
+  &::AuthProtocol::_Response_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_AuthProtocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -211,7 +263,7 @@ const char descriptor_table_protodef_AuthProtocol_2eproto[] PROTOBUF_SECTION_VAR
   "il\030\002 \002(\t\022\016\n\006passwd\030\003 \002(\t\"<\n\027CreateAccoun"
   "tWebSuccess\022\021\n\trequestID\030\001 \002(\003\022\016\n\006userID"
   "\030\002 \002(\003\"\306\001\n\027CreateAccountWebFailure\022\021\n\tre"
-  "questId\030\001 \002(\003\022A\n\013Fail_reason\030\002 \003(\0162,.Aut"
+  "questId\030\001 \002(\003\022A\n\013Fail_reason\030\002 \002(\0162,.Aut"
   "hProtocol.CreateAccountWebFailure.reason"
   "\"U\n\006reason\022\032\n\026ACCOUNT_ALREADY_EXISTS\020\000\022\024"
   "\n\020INVALID_PASSWORD\020\001\022\031\n\025INTERNAL_SERVER_"
@@ -220,16 +272,25 @@ const char descriptor_table_protodef_AuthProtocol_2eproto[] PROTOBUF_SECTION_VAR
   "AuthenticateWebSuccess\022\021\n\trequestId\030\001 \002("
   "\003\022\016\n\006userId\030\002 \002(\003\022\024\n\014creationDate\030\003 \002(\t\""
   "\253\001\n\026AuthenticateWebFailure\022\021\n\trequestId\030"
-  "\001 \002(\003\022@\n\013Fail_reason\030\002 \003(\0162+.AuthProtoco"
+  "\001 \002(\003\022@\n\013Fail_reason\030\002 \002(\0162+.AuthProtoco"
   "l.AuthenticateWebFailure.reason\"<\n\006reaso"
   "n\022\027\n\023INVALID_CREDENTIALS\020\000\022\031\n\025INTERNAL_S"
-  "ERVER_ERROR\020\001"
+  "ERVER_ERROR\020\001\"k\n\007Request\0221\n\tcreateAcc\030\003 "
+  "\003(\0132\036.AuthProtocol.CreateAccountWeb\022-\n\006a"
+  "uthen\030\004 \003(\0132\035.AuthProtocol.AuthenticateW"
+  "eb\"\365\001\n\010Response\0229\n\013authSuccess\030\001 \003(\0132$.A"
+  "uthProtocol.AuthenticateWebSuccess\0226\n\010au"
+  "thFail\030\002 \003(\0132$.AuthProtocol.Authenticate"
+  "WebFailure\022;\n\014createDetail\030\003 \003(\0132%.AuthP"
+  "rotocol.CreateAccountWebSuccess\0229\n\ncreat"
+  "eFail\030\004 \003(\0132%.AuthProtocol.CreateAccount"
+  "WebFailure"
   ;
 static ::_pbi::once_flag descriptor_table_AuthProtocol_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_AuthProtocol_2eproto = {
-    false, false, 693, descriptor_table_protodef_AuthProtocol_2eproto,
+    false, false, 1050, descriptor_table_protodef_AuthProtocol_2eproto,
     "AuthProtocol.proto",
-    &descriptor_table_AuthProtocol_2eproto_once, nullptr, 0, 6,
+    &descriptor_table_AuthProtocol_2eproto_once, nullptr, 0, 8,
     schemas, file_default_instances, TableStruct_AuthProtocol_2eproto::offsets,
     file_level_metadata_AuthProtocol_2eproto, file_level_enum_descriptors_AuthProtocol_2eproto,
     file_level_service_descriptors_AuthProtocol_2eproto,
@@ -888,8 +949,11 @@ class CreateAccountWebFailure::_Internal {
   static void set_has_requestid(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
+  static void set_has_fail_reason(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
   static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000001) ^ 0x00000001) != 0;
+    return ((has_bits[0] & 0x00000003) ^ 0x00000003) != 0;
   }
 };
 
@@ -905,11 +969,13 @@ CreateAccountWebFailure::CreateAccountWebFailure(const CreateAccountWebFailure& 
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.fail_reason_){from._impl_.fail_reason_}
-    , decltype(_impl_.requestid_){}};
+    , decltype(_impl_.requestid_){}
+    , decltype(_impl_.fail_reason_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.requestid_ = from._impl_.requestid_;
+  ::memcpy(&_impl_.requestid_, &from._impl_.requestid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.fail_reason_) -
+    reinterpret_cast<char*>(&_impl_.requestid_)) + sizeof(_impl_.fail_reason_));
   // @@protoc_insertion_point(copy_constructor:AuthProtocol.CreateAccountWebFailure)
 }
 
@@ -920,8 +986,8 @@ inline void CreateAccountWebFailure::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.fail_reason_){arena}
     , decltype(_impl_.requestid_){int64_t{0}}
+    , decltype(_impl_.fail_reason_){0}
   };
 }
 
@@ -936,7 +1002,6 @@ CreateAccountWebFailure::~CreateAccountWebFailure() {
 
 inline void CreateAccountWebFailure::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.fail_reason_.~RepeatedField();
 }
 
 void CreateAccountWebFailure::SetCachedSize(int size) const {
@@ -949,8 +1014,12 @@ void CreateAccountWebFailure::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.fail_reason_.Clear();
-  _impl_.requestid_ = int64_t{0};
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    ::memset(&_impl_.requestid_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.fail_reason_) -
+        reinterpret_cast<char*>(&_impl_.requestid_)) + sizeof(_impl_.fail_reason_));
+  }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -971,24 +1040,16 @@ const char* CreateAccountWebFailure::_InternalParse(const char* ptr, ::_pbi::Par
         } else
           goto handle_unusual;
         continue;
-      // repeated .AuthProtocol.CreateAccountWebFailure.reason Fail_reason = 2;
+      // required .AuthProtocol.CreateAccountWebFailure.reason Fail_reason = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-            CHK_(ptr);
-            if (PROTOBUF_PREDICT_TRUE(::AuthProtocol::CreateAccountWebFailure_reason_IsValid(val))) {
-              _internal_add_fail_reason(static_cast<::AuthProtocol::CreateAccountWebFailure_reason>(val));
-            } else {
-              ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(2, val, mutable_unknown_fields());
-            }
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<16>(ptr));
-        } else if (static_cast<uint8_t>(tag) == 18) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedEnumParser<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(_internal_mutable_fail_reason(), ptr, ctx, ::AuthProtocol::CreateAccountWebFailure_reason_IsValid, &_internal_metadata_, 2);
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+          if (PROTOBUF_PREDICT_TRUE(::AuthProtocol::CreateAccountWebFailure_reason_IsValid(val))) {
+            _internal_set_fail_reason(static_cast<::AuthProtocol::CreateAccountWebFailure_reason>(val));
+          } else {
+            ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(2, val, mutable_unknown_fields());
+          }
         } else
           goto handle_unusual;
         continue;
@@ -1029,11 +1090,11 @@ uint8_t* CreateAccountWebFailure::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_requestid(), target);
   }
 
-  // repeated .AuthProtocol.CreateAccountWebFailure.reason Fail_reason = 2;
-  for (int i = 0, n = this->_internal_fail_reason_size(); i < n; i++) {
+  // required .AuthProtocol.CreateAccountWebFailure.reason Fail_reason = 2;
+  if (cached_has_bits & 0x00000002u) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        2, this->_internal_fail_reason(i), target);
+      2, this->_internal_fail_reason(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1044,27 +1105,41 @@ uint8_t* CreateAccountWebFailure::_InternalSerialize(
   return target;
 }
 
+size_t CreateAccountWebFailure::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AuthProtocol.CreateAccountWebFailure)
+  size_t total_size = 0;
+
+  if (_internal_has_requestid()) {
+    // required int64 requestId = 1;
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_requestid());
+  }
+
+  if (_internal_has_fail_reason()) {
+    // required .AuthProtocol.CreateAccountWebFailure.reason Fail_reason = 2;
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_fail_reason());
+  }
+
+  return total_size;
+}
 size_t CreateAccountWebFailure::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:AuthProtocol.CreateAccountWebFailure)
   size_t total_size = 0;
 
-  // required int64 requestId = 1;
-  if (_internal_has_requestid()) {
+  if (((_impl_._has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
+    // required int64 requestId = 1;
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_requestid());
+
+    // required .AuthProtocol.CreateAccountWebFailure.reason Fail_reason = 2;
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_fail_reason());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // repeated .AuthProtocol.CreateAccountWebFailure.reason Fail_reason = 2;
-  {
-    size_t data_size = 0;
-    unsigned int count = static_cast<unsigned int>(this->_internal_fail_reason_size());for (unsigned int i = 0; i < count; i++) {
-      data_size += ::_pbi::WireFormatLite::EnumSize(
-        this->_internal_fail_reason(static_cast<int>(i)));
-    }
-    total_size += (1UL * count) + data_size;
-  }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
@@ -1084,9 +1159,15 @@ void CreateAccountWebFailure::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_impl_.fail_reason_.MergeFrom(from._impl_.fail_reason_);
-  if (from._internal_has_requestid()) {
-    _this->_internal_set_requestid(from._internal_requestid());
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_impl_.requestid_ = from._impl_.requestid_;
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_impl_.fail_reason_ = from._impl_.fail_reason_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -1107,8 +1188,12 @@ void CreateAccountWebFailure::InternalSwap(CreateAccountWebFailure* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  _impl_.fail_reason_.InternalSwap(&other->_impl_.fail_reason_);
-  swap(_impl_.requestid_, other->_impl_.requestid_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(CreateAccountWebFailure, _impl_.fail_reason_)
+      + sizeof(CreateAccountWebFailure::_impl_.fail_reason_)
+      - PROTOBUF_FIELD_OFFSET(CreateAccountWebFailure, _impl_.requestid_)>(
+          reinterpret_cast<char*>(&_impl_.requestid_),
+          reinterpret_cast<char*>(&other->_impl_.requestid_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata CreateAccountWebFailure::GetMetadata() const {
@@ -1783,8 +1868,11 @@ class AuthenticateWebFailure::_Internal {
   static void set_has_requestid(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
+  static void set_has_fail_reason(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
   static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000001) ^ 0x00000001) != 0;
+    return ((has_bits[0] & 0x00000003) ^ 0x00000003) != 0;
   }
 };
 
@@ -1800,11 +1888,13 @@ AuthenticateWebFailure::AuthenticateWebFailure(const AuthenticateWebFailure& fro
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){from._impl_._has_bits_}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.fail_reason_){from._impl_.fail_reason_}
-    , decltype(_impl_.requestid_){}};
+    , decltype(_impl_.requestid_){}
+    , decltype(_impl_.fail_reason_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.requestid_ = from._impl_.requestid_;
+  ::memcpy(&_impl_.requestid_, &from._impl_.requestid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.fail_reason_) -
+    reinterpret_cast<char*>(&_impl_.requestid_)) + sizeof(_impl_.fail_reason_));
   // @@protoc_insertion_point(copy_constructor:AuthProtocol.AuthenticateWebFailure)
 }
 
@@ -1815,8 +1905,8 @@ inline void AuthenticateWebFailure::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
-    , decltype(_impl_.fail_reason_){arena}
     , decltype(_impl_.requestid_){int64_t{0}}
+    , decltype(_impl_.fail_reason_){0}
   };
 }
 
@@ -1831,7 +1921,6 @@ AuthenticateWebFailure::~AuthenticateWebFailure() {
 
 inline void AuthenticateWebFailure::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.fail_reason_.~RepeatedField();
 }
 
 void AuthenticateWebFailure::SetCachedSize(int size) const {
@@ -1844,8 +1933,12 @@ void AuthenticateWebFailure::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.fail_reason_.Clear();
-  _impl_.requestid_ = int64_t{0};
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    ::memset(&_impl_.requestid_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.fail_reason_) -
+        reinterpret_cast<char*>(&_impl_.requestid_)) + sizeof(_impl_.fail_reason_));
+  }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -1866,24 +1959,16 @@ const char* AuthenticateWebFailure::_InternalParse(const char* ptr, ::_pbi::Pars
         } else
           goto handle_unusual;
         continue;
-      // repeated .AuthProtocol.AuthenticateWebFailure.reason Fail_reason = 2;
+      // required .AuthProtocol.AuthenticateWebFailure.reason Fail_reason = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          ptr -= 1;
-          do {
-            ptr += 1;
-            uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-            CHK_(ptr);
-            if (PROTOBUF_PREDICT_TRUE(::AuthProtocol::AuthenticateWebFailure_reason_IsValid(val))) {
-              _internal_add_fail_reason(static_cast<::AuthProtocol::AuthenticateWebFailure_reason>(val));
-            } else {
-              ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(2, val, mutable_unknown_fields());
-            }
-            if (!ctx->DataAvailable(ptr)) break;
-          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<16>(ptr));
-        } else if (static_cast<uint8_t>(tag) == 18) {
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedEnumParser<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(_internal_mutable_fail_reason(), ptr, ctx, ::AuthProtocol::AuthenticateWebFailure_reason_IsValid, &_internal_metadata_, 2);
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+          if (PROTOBUF_PREDICT_TRUE(::AuthProtocol::AuthenticateWebFailure_reason_IsValid(val))) {
+            _internal_set_fail_reason(static_cast<::AuthProtocol::AuthenticateWebFailure_reason>(val));
+          } else {
+            ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(2, val, mutable_unknown_fields());
+          }
         } else
           goto handle_unusual;
         continue;
@@ -1924,11 +2009,11 @@ uint8_t* AuthenticateWebFailure::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_requestid(), target);
   }
 
-  // repeated .AuthProtocol.AuthenticateWebFailure.reason Fail_reason = 2;
-  for (int i = 0, n = this->_internal_fail_reason_size(); i < n; i++) {
+  // required .AuthProtocol.AuthenticateWebFailure.reason Fail_reason = 2;
+  if (cached_has_bits & 0x00000002u) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        2, this->_internal_fail_reason(i), target);
+      2, this->_internal_fail_reason(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1939,27 +2024,41 @@ uint8_t* AuthenticateWebFailure::_InternalSerialize(
   return target;
 }
 
+size_t AuthenticateWebFailure::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AuthProtocol.AuthenticateWebFailure)
+  size_t total_size = 0;
+
+  if (_internal_has_requestid()) {
+    // required int64 requestId = 1;
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_requestid());
+  }
+
+  if (_internal_has_fail_reason()) {
+    // required .AuthProtocol.AuthenticateWebFailure.reason Fail_reason = 2;
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_fail_reason());
+  }
+
+  return total_size;
+}
 size_t AuthenticateWebFailure::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:AuthProtocol.AuthenticateWebFailure)
   size_t total_size = 0;
 
-  // required int64 requestId = 1;
-  if (_internal_has_requestid()) {
+  if (((_impl_._has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
+    // required int64 requestId = 1;
     total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_requestid());
+
+    // required .AuthProtocol.AuthenticateWebFailure.reason Fail_reason = 2;
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_fail_reason());
+
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // repeated .AuthProtocol.AuthenticateWebFailure.reason Fail_reason = 2;
-  {
-    size_t data_size = 0;
-    unsigned int count = static_cast<unsigned int>(this->_internal_fail_reason_size());for (unsigned int i = 0; i < count; i++) {
-      data_size += ::_pbi::WireFormatLite::EnumSize(
-        this->_internal_fail_reason(static_cast<int>(i)));
-    }
-    total_size += (1UL * count) + data_size;
-  }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
@@ -1979,9 +2078,15 @@ void AuthenticateWebFailure::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg,
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  _this->_impl_.fail_reason_.MergeFrom(from._impl_.fail_reason_);
-  if (from._internal_has_requestid()) {
-    _this->_internal_set_requestid(from._internal_requestid());
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_impl_.requestid_ = from._impl_.requestid_;
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_impl_.fail_reason_ = from._impl_.fail_reason_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -2002,14 +2107,536 @@ void AuthenticateWebFailure::InternalSwap(AuthenticateWebFailure* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
-  _impl_.fail_reason_.InternalSwap(&other->_impl_.fail_reason_);
-  swap(_impl_.requestid_, other->_impl_.requestid_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(AuthenticateWebFailure, _impl_.fail_reason_)
+      + sizeof(AuthenticateWebFailure::_impl_.fail_reason_)
+      - PROTOBUF_FIELD_OFFSET(AuthenticateWebFailure, _impl_.requestid_)>(
+          reinterpret_cast<char*>(&_impl_.requestid_),
+          reinterpret_cast<char*>(&other->_impl_.requestid_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata AuthenticateWebFailure::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_AuthProtocol_2eproto_getter, &descriptor_table_AuthProtocol_2eproto_once,
       file_level_metadata_AuthProtocol_2eproto[5]);
+}
+
+// ===================================================================
+
+class Request::_Internal {
+ public:
+};
+
+Request::Request(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:AuthProtocol.Request)
+}
+Request::Request(const Request& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  Request* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.createacc_){from._impl_.createacc_}
+    , decltype(_impl_.authen_){from._impl_.authen_}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:AuthProtocol.Request)
+}
+
+inline void Request::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.createacc_){arena}
+    , decltype(_impl_.authen_){arena}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+Request::~Request() {
+  // @@protoc_insertion_point(destructor:AuthProtocol.Request)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void Request::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.createacc_.~RepeatedPtrField();
+  _impl_.authen_.~RepeatedPtrField();
+}
+
+void Request::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void Request::Clear() {
+// @@protoc_insertion_point(message_clear_start:AuthProtocol.Request)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.createacc_.Clear();
+  _impl_.authen_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* Request::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated .AuthProtocol.CreateAccountWeb createAcc = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_createacc(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .AuthProtocol.AuthenticateWeb authen = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_authen(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* Request::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AuthProtocol.Request)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .AuthProtocol.CreateAccountWeb createAcc = 3;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_createacc_size()); i < n; i++) {
+    const auto& repfield = this->_internal_createacc(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // repeated .AuthProtocol.AuthenticateWeb authen = 4;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_authen_size()); i < n; i++) {
+    const auto& repfield = this->_internal_authen(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(4, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:AuthProtocol.Request)
+  return target;
+}
+
+size_t Request::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:AuthProtocol.Request)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .AuthProtocol.CreateAccountWeb createAcc = 3;
+  total_size += 1UL * this->_internal_createacc_size();
+  for (const auto& msg : this->_impl_.createacc_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // repeated .AuthProtocol.AuthenticateWeb authen = 4;
+  total_size += 1UL * this->_internal_authen_size();
+  for (const auto& msg : this->_impl_.authen_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Request::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    Request::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Request::GetClassData() const { return &_class_data_; }
+
+
+void Request::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<Request*>(&to_msg);
+  auto& from = static_cast<const Request&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:AuthProtocol.Request)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.createacc_.MergeFrom(from._impl_.createacc_);
+  _this->_impl_.authen_.MergeFrom(from._impl_.authen_);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Request::CopyFrom(const Request& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AuthProtocol.Request)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Request::IsInitialized() const {
+  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(_impl_.createacc_))
+    return false;
+  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(_impl_.authen_))
+    return false;
+  return true;
+}
+
+void Request::InternalSwap(Request* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.createacc_.InternalSwap(&other->_impl_.createacc_);
+  _impl_.authen_.InternalSwap(&other->_impl_.authen_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata Request::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_AuthProtocol_2eproto_getter, &descriptor_table_AuthProtocol_2eproto_once,
+      file_level_metadata_AuthProtocol_2eproto[6]);
+}
+
+// ===================================================================
+
+class Response::_Internal {
+ public:
+};
+
+Response::Response(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:AuthProtocol.Response)
+}
+Response::Response(const Response& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  Response* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.authsuccess_){from._impl_.authsuccess_}
+    , decltype(_impl_.authfail_){from._impl_.authfail_}
+    , decltype(_impl_.createdetail_){from._impl_.createdetail_}
+    , decltype(_impl_.createfail_){from._impl_.createfail_}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:AuthProtocol.Response)
+}
+
+inline void Response::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.authsuccess_){arena}
+    , decltype(_impl_.authfail_){arena}
+    , decltype(_impl_.createdetail_){arena}
+    , decltype(_impl_.createfail_){arena}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+Response::~Response() {
+  // @@protoc_insertion_point(destructor:AuthProtocol.Response)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void Response::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.authsuccess_.~RepeatedPtrField();
+  _impl_.authfail_.~RepeatedPtrField();
+  _impl_.createdetail_.~RepeatedPtrField();
+  _impl_.createfail_.~RepeatedPtrField();
+}
+
+void Response::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void Response::Clear() {
+// @@protoc_insertion_point(message_clear_start:AuthProtocol.Response)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.authsuccess_.Clear();
+  _impl_.authfail_.Clear();
+  _impl_.createdetail_.Clear();
+  _impl_.createfail_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* Response::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated .AuthProtocol.AuthenticateWebSuccess authSuccess = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_authsuccess(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .AuthProtocol.AuthenticateWebFailure authFail = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_authfail(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .AuthProtocol.CreateAccountWebSuccess createDetail = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_createdetail(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .AuthProtocol.CreateAccountWebFailure createFail = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_createfail(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<34>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* Response::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AuthProtocol.Response)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .AuthProtocol.AuthenticateWebSuccess authSuccess = 1;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_authsuccess_size()); i < n; i++) {
+    const auto& repfield = this->_internal_authsuccess(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(1, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // repeated .AuthProtocol.AuthenticateWebFailure authFail = 2;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_authfail_size()); i < n; i++) {
+    const auto& repfield = this->_internal_authfail(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // repeated .AuthProtocol.CreateAccountWebSuccess createDetail = 3;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_createdetail_size()); i < n; i++) {
+    const auto& repfield = this->_internal_createdetail(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // repeated .AuthProtocol.CreateAccountWebFailure createFail = 4;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_createfail_size()); i < n; i++) {
+    const auto& repfield = this->_internal_createfail(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(4, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:AuthProtocol.Response)
+  return target;
+}
+
+size_t Response::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:AuthProtocol.Response)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .AuthProtocol.AuthenticateWebSuccess authSuccess = 1;
+  total_size += 1UL * this->_internal_authsuccess_size();
+  for (const auto& msg : this->_impl_.authsuccess_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // repeated .AuthProtocol.AuthenticateWebFailure authFail = 2;
+  total_size += 1UL * this->_internal_authfail_size();
+  for (const auto& msg : this->_impl_.authfail_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // repeated .AuthProtocol.CreateAccountWebSuccess createDetail = 3;
+  total_size += 1UL * this->_internal_createdetail_size();
+  for (const auto& msg : this->_impl_.createdetail_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // repeated .AuthProtocol.CreateAccountWebFailure createFail = 4;
+  total_size += 1UL * this->_internal_createfail_size();
+  for (const auto& msg : this->_impl_.createfail_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Response::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    Response::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Response::GetClassData() const { return &_class_data_; }
+
+
+void Response::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<Response*>(&to_msg);
+  auto& from = static_cast<const Response&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:AuthProtocol.Response)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.authsuccess_.MergeFrom(from._impl_.authsuccess_);
+  _this->_impl_.authfail_.MergeFrom(from._impl_.authfail_);
+  _this->_impl_.createdetail_.MergeFrom(from._impl_.createdetail_);
+  _this->_impl_.createfail_.MergeFrom(from._impl_.createfail_);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Response::CopyFrom(const Response& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AuthProtocol.Response)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Response::IsInitialized() const {
+  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(_impl_.authsuccess_))
+    return false;
+  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(_impl_.authfail_))
+    return false;
+  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(_impl_.createdetail_))
+    return false;
+  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(_impl_.createfail_))
+    return false;
+  return true;
+}
+
+void Response::InternalSwap(Response* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.authsuccess_.InternalSwap(&other->_impl_.authsuccess_);
+  _impl_.authfail_.InternalSwap(&other->_impl_.authfail_);
+  _impl_.createdetail_.InternalSwap(&other->_impl_.createdetail_);
+  _impl_.createfail_.InternalSwap(&other->_impl_.createfail_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata Response::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_AuthProtocol_2eproto_getter, &descriptor_table_AuthProtocol_2eproto_once,
+      file_level_metadata_AuthProtocol_2eproto[7]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -2038,6 +2665,14 @@ Arena::CreateMaybeMessage< ::AuthProtocol::AuthenticateWebSuccess >(Arena* arena
 template<> PROTOBUF_NOINLINE ::AuthProtocol::AuthenticateWebFailure*
 Arena::CreateMaybeMessage< ::AuthProtocol::AuthenticateWebFailure >(Arena* arena) {
   return Arena::CreateMessageInternal< ::AuthProtocol::AuthenticateWebFailure >(arena);
+}
+template<> PROTOBUF_NOINLINE ::AuthProtocol::Request*
+Arena::CreateMaybeMessage< ::AuthProtocol::Request >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::AuthProtocol::Request >(arena);
+}
+template<> PROTOBUF_NOINLINE ::AuthProtocol::Response*
+Arena::CreateMaybeMessage< ::AuthProtocol::Response >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::AuthProtocol::Response >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 
