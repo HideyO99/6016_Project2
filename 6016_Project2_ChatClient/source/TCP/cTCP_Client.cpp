@@ -103,64 +103,69 @@ int cTCP_Client::ReceiveFromServer()
 
 	const int rcvBuffLen = 16348;
 	char rcvBuff[rcvBuffLen];
-
-	int recvResult = recv(ConnectSocket, rcvBuff, rcvBuffLen, 0);
-
-	AuthProtocol::Response responseFromAuthenServer;
-	bool success = responseFromAuthenServer.ParseFromString(rcvBuff);
-	if (!success) {
-		std::cout << "Failed to parse" << std::endl;
-	}
-
-	//const AuthProtocol::AuthenticateWebSuccess& authSuccess = responseFromAuthenServer.authsuccess(0);
-	//const AuthProtocol::AuthenticateWebFailure& authFail = responseFromAuthenServer.authfail(0);
-	//const AuthProtocol::CreateAccountWebSuccess& createAccSuccess = responseFromAuthenServer.createdetail(0);
-	//const AuthProtocol::CreateAccountWebFailure& createAccFail = responseFromAuthenServer.createfail(0);
-	if (responseFromAuthenServer.authsuccess_size() != 0)//(authSuccess.has_requestid())
+	bool tryagain = true;
+	while (tryagain)
 	{
-		const AuthProtocol::AuthenticateWebSuccess& authSuccess = responseFromAuthenServer.authsuccess(0);
-		createDate = authSuccess.creationdate().c_str();
-		status = SUCCESS;
-		return 1;
-	}
-	if (responseFromAuthenServer.authfail_size() != 0)//(authFail.has_requestid())
-	{
-		const AuthProtocol::AuthenticateWebFailure& authFail = responseFromAuthenServer.authfail(0);
-		switch (authFail.fail_reason())
+		int recvResult = recv(ConnectSocket, rcvBuff, rcvBuffLen, 0);
+		if (recvResult != SOCKET_ERROR)
 		{
-		case AuthProtocol::AuthenticateWebFailure_reason_INVALID_CREDENTIALS:
-			status = INVALID_CREDENTIAL;
-			break;
-		case AuthProtocol::AuthenticateWebFailure_reason_INTERNAL_SERVER_ERROR:
-			status = INTERNAL_SERVER_ERROR;
-			break;
-		}
-		return 2;
-	}
-	if (responseFromAuthenServer.createdetail_size() != 0)//(createAccSuccess.has_requestid())
-	{
-		const AuthProtocol::CreateAccountWebSuccess& createAccSuccess = responseFromAuthenServer.createdetail(0);
-		status = SUCCESS;
-		return 3;
-	}
-	if (responseFromAuthenServer.createfail_size()!=0)//(createAccFail.has_requestid())
-	{
-		const AuthProtocol::CreateAccountWebFailure& createAccFail = responseFromAuthenServer.createfail(0);
-		switch (createAccFail.fail_reason())
-		{
-		case AuthProtocol::CreateAccountWebFailure_reason_ACCOUNT_ALREADY_EXISTS:
-			status = ACCOUNT_EXISTS;
-			break;
-		case AuthProtocol::CreateAccountWebFailure_reason_INVALID_PASSWORD:
-			status = INVALID_PASS;
-			break;
-		case AuthProtocol::CreateAccountWebFailure_reason_INTERNAL_SERVER_ERROR:
-			status = INTERNAL_SERVER_ERROR;
-			break;
-		}
-		return 4;
-	}
+			tryagain = false;
+			AuthProtocol::Response responseFromAuthenServer;
+			bool success = responseFromAuthenServer.ParseFromString(rcvBuff);
+			if (!success) {
+				std::cout << "Failed to parse" << std::endl;
+			}
 
+			//const AuthProtocol::AuthenticateWebSuccess& authSuccess = responseFromAuthenServer.authsuccess(0);
+			//const AuthProtocol::AuthenticateWebFailure& authFail = responseFromAuthenServer.authfail(0);
+			//const AuthProtocol::CreateAccountWebSuccess& createAccSuccess = responseFromAuthenServer.createdetail(0);
+			//const AuthProtocol::CreateAccountWebFailure& createAccFail = responseFromAuthenServer.createfail(0);
+			if (responseFromAuthenServer.authsuccess_size() != 0)//(authSuccess.has_requestid())
+			{
+				const AuthProtocol::AuthenticateWebSuccess& authSuccess = responseFromAuthenServer.authsuccess(0);
+				createDate = authSuccess.creationdate().c_str();
+				status = SUCCESS;
+				return 1;
+			}
+			if (responseFromAuthenServer.authfail_size() != 0)//(authFail.has_requestid())
+			{
+				const AuthProtocol::AuthenticateWebFailure& authFail = responseFromAuthenServer.authfail(0);
+				switch (authFail.fail_reason())
+				{
+				case AuthProtocol::AuthenticateWebFailure_reason_INVALID_CREDENTIALS:
+					status = INVALID_CREDENTIAL;
+					break;
+				case AuthProtocol::AuthenticateWebFailure_reason_INTERNAL_SERVER_ERROR:
+					status = INTERNAL_SERVER_ERROR;
+					break;
+				}
+				return 2;
+			}
+			if (responseFromAuthenServer.createdetail_size() != 0)//(createAccSuccess.has_requestid())
+			{
+				const AuthProtocol::CreateAccountWebSuccess& createAccSuccess = responseFromAuthenServer.createdetail(0);
+				status = SUCCESS;
+				return 3;
+			}
+			if (responseFromAuthenServer.createfail_size() != 0)//(createAccFail.has_requestid())
+			{
+				const AuthProtocol::CreateAccountWebFailure& createAccFail = responseFromAuthenServer.createfail(0);
+				switch (createAccFail.fail_reason())
+				{
+				case AuthProtocol::CreateAccountWebFailure_reason_ACCOUNT_ALREADY_EXISTS:
+					status = ACCOUNT_EXISTS;
+					break;
+				case AuthProtocol::CreateAccountWebFailure_reason_INVALID_PASSWORD:
+					status = INVALID_PASS;
+					break;
+				case AuthProtocol::CreateAccountWebFailure_reason_INTERNAL_SERVER_ERROR:
+					status = INTERNAL_SERVER_ERROR;
+					break;
+				}
+				return 4;
+			}
+		}
+	}
 	//return result;
 }
 

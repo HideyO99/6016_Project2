@@ -3,7 +3,7 @@
 
 
 #define CHAT_SERVERIP "127.0.0.1"
-#define CHAT_SERVER_PORT "1150"
+#define CHAT_SERVER_PORT "1112"
 
 int main(int argc, char** argv)
 {
@@ -23,7 +23,7 @@ int main(int argc, char** argv)
 	{
 		bool result = false;
 		int receiveResult = 0;
-		while (!result)
+		//while (!result)
 		{
 			std::cout << " Please enter email and password to create new account" << std::endl << "email:>";
 			std::cin >> email;
@@ -36,7 +36,7 @@ int main(int argc, char** argv)
 			{
 				std::cout << "account created" << std::endl;
 				result = true;
-				break;
+				//break;
 			}
 			switch (ChatClient.status)
 			{
@@ -58,7 +58,7 @@ int main(int argc, char** argv)
 	{
 		bool result = false;
 		int receiveResult = 0;
-		while (!result)
+		//while (!result)
 		{
 			std::cout << " Please enter email and password to login" << std::endl << "email:>";
 			std::cin >> email;
@@ -71,7 +71,7 @@ int main(int argc, char** argv)
 			{
 				std::cout << "login completed" << std::endl;
 				result = true;
-				break;
+				//break;
 			}
 			switch (ChatClient.status)
 			{

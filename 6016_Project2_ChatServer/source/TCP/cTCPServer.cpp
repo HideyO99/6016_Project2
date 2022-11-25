@@ -65,38 +65,45 @@ int cTCPServer::ReadFromClient(ClientInformation& client)
 	
 	const int buflen = 16348;
 	char buf[buflen];
-
-	int recvResult = recv(client.socket, buf, buflen, 0);
-
-	if (recvResult == 0) {
-		printf("Client disconnected!\n");
-		client.connected = false;
-		return 0;
-	}
-	AuthProtocol::Request reqMSG;
-	//AuthProtocol::Response replyMSG;
-	bool result = reqMSG.ParseFromString(buf);
-	if (!result)
+	bool tryagain = true;
+	while (tryagain)
 	{
-		std::cout << "Failed to parse message" << std::endl;
-		return 1;
-	}
+		int recvResult = recv(client.socket, buf, buflen, 0);
+		if (recvResult != SOCKET_ERROR)
+		{
+			tryagain = false;
+			if (recvResult == 0) {
+				printf("Client disconnected!\n");
+				client.connected = false;
+				return 0;
+			}
+			AuthProtocol::Request reqMSG;
+			//AuthProtocol::Response replyMSG;
+			bool result = reqMSG.ParseFromString(buf);
+			if (!result)
+			{
+				std::cout << "Failed to parse message from chat client" << std::endl;
+				return 1;
+			}
 
-	const AuthProtocol::AuthenticateWeb& Authen_req = reqMSG.authen(0);
-	const AuthProtocol::CreateAccountWeb& CreateAcc_req = reqMSG.createacc(0);
+			//const AuthProtocol::CreateAccountWeb& CreateAcc_req = reqMSG.createacc(0);
 
-	if (Authen_req.has_requestid())
-	{
-		action = LOGIN;
-		email_ = Authen_req.email().c_str();
-		password_ = Authen_req.passwd().c_str();
+			if (reqMSG.authen_size() != 0)//(Authen_req.has_requestid())
+			{
+				const AuthProtocol::AuthenticateWeb& Authen_req = reqMSG.authen(0);
+				action = LOGIN;
+				email_ = Authen_req.email().c_str();
+				password_ = Authen_req.passwd().c_str();
 
-	}
-	if (CreateAcc_req.has_requestid())
-	{
-		action = CREATEACCOUNT;
-		email_ = CreateAcc_req.email().c_str();
-		password_ = CreateAcc_req.passwd().c_str();
+			}
+			if (reqMSG.createacc_size() != 0)//(CreateAcc_req.has_requestid())
+			{
+				const AuthProtocol::CreateAccountWeb& CreateAcc_req = reqMSG.createacc(0);
+				action = CREATEACCOUNT;
+				email_ = CreateAcc_req.email().c_str();
+				password_ = CreateAcc_req.passwd().c_str();
+			}
+		}
 	}
 
 	return 0;

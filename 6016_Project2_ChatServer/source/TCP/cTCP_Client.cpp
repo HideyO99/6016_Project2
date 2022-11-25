@@ -86,7 +86,7 @@ int cTCP_Client::SendToServer(cmdType cmd, std::string email, std::string passwd
 		login->set_requestid(reqID);
 		login->set_email(email);
 		login->set_passwd(passwd);
-		mCMDHistory.emplace(reqID, CREATEACCOUNT);
+		mCMDHistory.emplace(reqID, LOGIN);
 	}
 
 	std::string serializedString;
@@ -103,174 +103,74 @@ int cTCP_Client::ReceiveFromServer()
 
 	const int rcvBuffLen = 16348;
 	char rcvBuff[rcvBuffLen];
-
-	int recvResult = recv(ConnectSocket, rcvBuff, rcvBuffLen, 0);
-
-	AuthProtocol::Response responseFromAuthenServer;
-	bool success = responseFromAuthenServer.ParseFromString(rcvBuff);
-	if (!success) {
-		std::cout << "Failed to parse" << std::endl;
-	}
-
-	//const AuthProtocol::AuthenticateWebSuccess& authSuccess = responseFromAuthenServer.authsuccess(0);
-	//const AuthProtocol::AuthenticateWebFailure& authFail = responseFromAuthenServer.authfail(0);
-	//const AuthProtocol::CreateAccountWebSuccess& createAccSuccess = responseFromAuthenServer.createdetail(0);
-	//const AuthProtocol::CreateAccountWebFailure& createAccFail = responseFromAuthenServer.createfail(0);
-	if (responseFromAuthenServer.authsuccess_size() != 0)//(authSuccess.has_requestid())
+	bool tryAgain = true;
+	while (tryAgain)
 	{
-		const AuthProtocol::AuthenticateWebSuccess& authSuccess = responseFromAuthenServer.authsuccess(0);
-		createDate = authSuccess.creationdate().c_str();
-		status = SUCCESS;
-		return 1;
-	}
-	if (responseFromAuthenServer.authfail_size() != 0)//(authFail.has_requestid())
-	{
-		const AuthProtocol::AuthenticateWebFailure& authFail = responseFromAuthenServer.authfail(0);
-		switch (authFail.fail_reason())
+		int recvResult = recv(ConnectSocket, rcvBuff, rcvBuffLen, 0);
+		if (recvResult != SOCKET_ERROR)
 		{
-		case AuthProtocol::AuthenticateWebFailure_reason_INVALID_CREDENTIALS:
-			status = INVALID_CREDENTIAL;
-			break;
-		case AuthProtocol::AuthenticateWebFailure_reason_INTERNAL_SERVER_ERROR:
-			status = INTERNAL_SERVER_ERROR;
-			break;
-		}
-		return 2;
-	}
-	if (responseFromAuthenServer.createdetail_size() != 0)//(createAccSuccess.has_requestid())
-	{
-		const AuthProtocol::CreateAccountWebSuccess& createAccSuccess = responseFromAuthenServer.createdetail(0);
-		status = SUCCESS;
-		return 3;
-	}
-	if (responseFromAuthenServer.createfail_size() != 0)//(createAccFail.has_requestid())
-	{
-		const AuthProtocol::CreateAccountWebFailure& createAccFail = responseFromAuthenServer.createfail(0);
-		switch (createAccFail.fail_reason())
-		{
-		case AuthProtocol::CreateAccountWebFailure_reason_ACCOUNT_ALREADY_EXISTS:
-			status = ACCOUNT_EXISTS;
-			break;
-		case AuthProtocol::CreateAccountWebFailure_reason_INVALID_PASSWORD:
-			status = INVALID_PASS;
-			break;
-		case AuthProtocol::CreateAccountWebFailure_reason_INTERNAL_SERVER_ERROR:
-			status = INTERNAL_SERVER_ERROR;
-			break;
-		}
-		return 4;
-	}
+			tryAgain = false;
 
+			AuthProtocol::Response responseFromAuthenServer;
+			bool success = responseFromAuthenServer.ParseFromString(rcvBuff);
+			if (!success) {
+				std::cout << "Failed to parse from AuthServer" << std::endl;
+			}
+
+			//const AuthProtocol::AuthenticateWebSuccess& authSuccess = responseFromAuthenServer.authsuccess(0);
+			//const AuthProtocol::AuthenticateWebFailure& authFail = responseFromAuthenServer.authfail(0);
+			//const AuthProtocol::CreateAccountWebSuccess& createAccSuccess = responseFromAuthenServer.createdetail(0);
+			//const AuthProtocol::CreateAccountWebFailure& createAccFail = responseFromAuthenServer.createfail(0);
+			if (responseFromAuthenServer.authsuccess_size() != 0)//(authSuccess.has_requestid())
+			{
+				const AuthProtocol::AuthenticateWebSuccess& authSuccess = responseFromAuthenServer.authsuccess(0);
+				createDate = authSuccess.creationdate().c_str();
+				status = SUCCESS;
+				return 1;
+			}
+			if (responseFromAuthenServer.authfail_size() != 0)//(authFail.has_requestid())
+			{
+				const AuthProtocol::AuthenticateWebFailure& authFail = responseFromAuthenServer.authfail(0);
+				switch (authFail.fail_reason())
+				{
+				case AuthProtocol::AuthenticateWebFailure_reason_INVALID_CREDENTIALS:
+					status = INVALID_CREDENTIAL;
+					break;
+				case AuthProtocol::AuthenticateWebFailure_reason_INTERNAL_SERVER_ERROR:
+					status = INTERNAL_SERVER_ERROR;
+					break;
+				}
+				return 2;
+			}
+			if (responseFromAuthenServer.createdetail_size() != 0)//(createAccSuccess.has_requestid())
+			{
+				const AuthProtocol::CreateAccountWebSuccess& createAccSuccess = responseFromAuthenServer.createdetail(0);
+				status = SUCCESS;
+				return 3;
+			}
+			if (responseFromAuthenServer.createfail_size() != 0)//(createAccFail.has_requestid())
+			{
+				const AuthProtocol::CreateAccountWebFailure& createAccFail = responseFromAuthenServer.createfail(0);
+				switch (createAccFail.fail_reason())
+				{
+				case AuthProtocol::CreateAccountWebFailure_reason_ACCOUNT_ALREADY_EXISTS:
+					status = ACCOUNT_EXISTS;
+					break;
+				case AuthProtocol::CreateAccountWebFailure_reason_INVALID_PASSWORD:
+					status = INVALID_PASS;
+					break;
+				case AuthProtocol::CreateAccountWebFailure_reason_INTERNAL_SERVER_ERROR:
+					status = INTERNAL_SERVER_ERROR;
+					break;
+				}
+				return 4;
+			}
+		}
+	}
 	//return result;
 }
 
-//int cTCP_Client::Chat(std::string user)
-//{
-//	int result = 0;
-//	bool terminate = false;
-//	std::string input;
-//	std::string cmd;
-//	
-//	//uint16_t opcode = 0xff;
-//	//std::string para;
-//	
-//	std::cout << "Type /J [room] to join a room" << std::endl;
-//	std::cout << "Type /L [room] to Leave a room" << std::endl;
-//	std::cout << "Type /S [message] to send message to a room" << std::endl;
-//	std::cout << "Type /X  to exit program" << std::endl;
-//	std::cout << "Room Available" << std::endl;
-//	for (auto it = room.begin();
-//		it != room.end(); it++)
-//	{
-//		std::cout <<"< " << it->first << "  >\t";
-//	}
-//	std::cout << std::endl;
-//	std::getline(std::cin, input);
-//	uint16_t opcode = 0xff;
-//	int i = 0;
-//	while (!terminate)
-//	{
-//		std::cout << i++ << " ";
-//		std::cout << user << "> ";
-//		std::getline(std::cin, input);
-//		size_t delimiterPos = input.find(' ');
-//		if (delimiterPos != std::string::npos)
-//		{
-//			cmd = input.substr(0, delimiterPos);
-//			input.erase(0, delimiterPos + 1);
-//			while (input.front() == ' ')
-//			{
-//				delimiterPos = input.find(' ');
-//				input.erase(0, delimiterPos + 1);
-//			}
-//			//join room
-//			if ((cmd.compare("/J") == 0) || (cmd.compare("/j") == 0))
-//			{
-//				auto found = room.find(input);
-//				if (found != room.end())
-//				{
-//					opcode = (uint16_t)(found->second);
-//					result = SendToServer(JoinRoom, opcode, user);
-//					roomFlag = opcode;
-//				}
-//				else
-//				{
-//					std::cout << "incorrect room" << std::endl;
-//				}
-//			}
-//			//leave room
-//			if ((cmd.compare("/L") == 0) || (cmd.compare("/l") == 0))
-//			{
-//				auto found = room.find(input);
-//				if (found != room.end())
-//				{
-//					opcode = (uint16_t)(found->second);
-//					if (curRoom.getActiveRoom(opcode))
-//					{
-//						result = SendToServer(LeaveRoom, opcode, user);
-//						roomFlag = opcode;
-//					}
-//					else {
-//						std::cout << "you are not in the room" << std::endl;
-//					}
-//				}
-//				else
-//				{
-//					std::cout << "incorrect room" << std::endl;
-//				}
-//			}
-//			//send message
-//			if ((cmd.compare("/S") == 0) || (cmd.compare("/s") == 0))
-//			{
-//				std::string toRoom;
-//				delimiterPos = input.find(' ');
-//				toRoom = (input.substr(0, delimiterPos));
-//				input.erase(0, delimiterPos + 1);
-//				auto found = room.find(toRoom);
-//				if (found != room.end())
-//				{
-//					opcode = (uint16_t)(found->second);
-//					result = SendToServer(SendMSG, opcode, input);
-//				}
-//				else
-//				{
-//					std::cout << "incorrect room" << std::endl;
-//				}
-//				
-//			}
-//			result = ReceiveFromServer();
-//			//system("Pause");
-//		}
-//		if ((input.compare("/X") == 0) || (input.compare("/x") == 0))
-//		{
-//			terminate = true;
-//			break;
-//		}
-//	}
-//	
-//
-//	return result;
-//}
+
 
 int cTCP_Client::WinsockInit(PCSTR ip, PCSTR port)
 {
