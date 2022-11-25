@@ -19,6 +19,39 @@ int main(int argc, char** argv)
 	//chatServer.TCP_Run();
 	while (1)
 	{
+		chatServer.poll();
+		for (int i = chatServer.clients.size() - 1; i >= 0; i--)
+		{
+			cTCPServer::ClientInformation& client = chatServer.clients[i];
+			if (!client.connected)
+			{
+				continue;
+			}
+
+			if (FD_ISSET(client.socket, &chatServer.socketsReadyForReading))
+			{
+				chatServer.ReadFromClient(client);
+				std::string serializedString;
+				if (chatServer.action == cTCPServer::CREATEACCOUNT)
+				{
+					int resultFromAuthServer;
+					AuthenClient.SendToServer(cTCP_Client::CREATEACCOUNT, chatServer.email_, chatServer.password_);
+					resultFromAuthServer = AuthenClient.ReceiveFromServer();
+					
+					chatServer.responseToChatClient(resultFromAuthServer, serializedString, AuthenClient.createDate,AuthenClient.status);
+				}
+				if (chatServer.action == cTCPServer::LOGIN)
+				{
+					int resultFromAuthServer;
+					AuthenClient.SendToServer(cTCP_Client::LOGIN, chatServer.email_, chatServer.password_);
+					resultFromAuthServer = AuthenClient.ReceiveFromServer();
+					chatServer.responseToChatClient(resultFromAuthServer, serializedString, AuthenClient.createDate, AuthenClient.status);
+				}
+				int sendResult = send(client.socket, serializedString.c_str(), serializedString.length(), 0);
+			}
+		}
+		//chatServer.ReadFromClient();
+
 
 	}
 	chatServer.CloseSocket();

@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include "cTCP_Client.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -16,17 +17,27 @@ public:
 	cTCPServer();
 	~cTCPServer();
 
-
-	int TCP_init(PCSTR port);
-	int TCP_Run();
-	void CloseSocket();
-	int ReadFromClient();
-	void decode(char* buf);
-
 	struct ClientInformation {
 		SOCKET socket;
 		bool connected;
 	};
+
+	enum cmdType
+	{
+		CREATEACCOUNT,
+		LOGIN
+	};
+
+	int TCP_init(PCSTR port);
+	int TCP_Run();
+	void CloseSocket();
+	void poll();
+	int ReadFromClient(ClientInformation& client);
+	void responseToChatClient(int resultFromAuth,std::string& s, std::string date,cTCP_Client::returnStatus status);
+
+	cmdType action;
+	std::string email_;
+	std::string password_;
 
 	WSADATA wsaData;
 	struct addrinfo* info;

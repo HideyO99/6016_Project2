@@ -179,9 +179,100 @@ void cTCPServer::CloseSocket()
 	WSACleanup();
 }
 
-int cTCPServer::ReadFromClient()
+void cTCPServer::poll()
 {
+	SelectConnection();
+	AcceptConnection();
+}
+
+int cTCPServer::ReadFromClient(ClientInformation& client)
+{
+	
+	const int buflen = 128;
+	char buf[buflen];
+
+	int recvResult = recv(client.socket, buf, buflen, 0);
+
+	if (recvResult == 0) {
+		printf("Client disconnected!\n");
+		client.connected = false;
+		return 0;
+	}
+	AuthProtocol::Request reqMSG;
+	//AuthProtocol::Response replyMSG;
+	bool result = reqMSG.ParseFromString(buf);
+	if (!result)
+	{
+		std::cout << "Failed to parse message" << std::endl;
+		return 1;
+	}
+
+	const AuthProtocol::AuthenticateWeb& Authen_req = reqMSG.authen(0);
+	const AuthProtocol::CreateAccountWeb& CreateAcc_req = reqMSG.createacc(0);
+
+	if (Authen_req.has_requestid())
+	{
+		action = LOGIN;
+		email_ = Authen_req.email().c_str();
+		password_ = Authen_req.passwd().c_str();
+
+	}
+	if (CreateAcc_req.has_requestid())
+	{
+		action = CREATEACCOUNT;
+		email_ = CreateAcc_req.email().c_str();
+		password_ = CreateAcc_req.passwd().c_str();
+	}
+
 	return 0;
+}
+
+void cTCPServer::responseToChatClient(int resultFromAuth, std::string& s, std::string date, cTCP_Client::returnStatus status)
+{
+	AuthProtocol::Response replyMSG;
+	switch (resultFromAuth)
+	{
+	case 1:
+		{
+			AuthProtocol::AuthenticateWebSuccess *authSuccess = replyMSG.add_authsuccess();
+			authSuccess->set_requestid(0);
+			authSuccess->set_userid(0);
+			authSuccess->set_creationdate(date);
+		}
+		break;
+	case 2:
+		{
+			AuthProtocol::AuthenticateWebFailure *authFail = replyMSG.add_authfail();
+			authFail->set_requestid(0);
+			if(status == cTCP_Client::INVALID_CREDENTIAL)
+				authFail->set_fail_reason(AuthProtocol::AuthenticateWebFailure_reason_INVALID_CREDENTIALS);
+			if(status == cTCP_Client::INTERNAL_SERVER_ERROR)
+				authFail->set_fail_reason(AuthProtocol::AuthenticateWebFailure_reason_INTERNAL_SERVER_ERROR);
+		}
+		break;
+	case 3:
+		{
+			AuthProtocol::CreateAccountWebSuccess* createSuccess = replyMSG.add_createdetail();
+			createSuccess->set_requestid(0);
+			createSuccess->set_userid(0);
+		}
+		break;
+	case 4:
+		{
+			AuthProtocol::CreateAccountWebFailure* createFail = replyMSG.add_createfail();
+			createFail->set_requestid(0);
+			if (status == cTCP_Client::ACCOUNT_EXISTS)
+				createFail->set_fail_reason(AuthProtocol::CreateAccountWebFailure_reason_ACCOUNT_ALREADY_EXISTS);
+			if (status == cTCP_Client::INVALID_PASS)
+				createFail->set_fail_reason(AuthProtocol::CreateAccountWebFailure_reason_INVALID_PASSWORD);
+			if (status == cTCP_Client::INTERNAL_SERVER_ERROR)
+				createFail->set_fail_reason(AuthProtocol::CreateAccountWebFailure_reason_INTERNAL_SERVER_ERROR);
+		}
+		break;
+	default:
+		break;
+	}
+	replyMSG.SerializeToString(&s);
 }
 
 

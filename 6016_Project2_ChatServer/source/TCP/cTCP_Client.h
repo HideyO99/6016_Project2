@@ -32,7 +32,7 @@ public:
 
 	int initialize(PCSTR ip, PCSTR port);
 	void CloseSocket();
-	int SendToServer(cmdType cmd, std::string email, std::string passwd);//(uint16_t cmd, uint16_t opcode, std::string s);
+	int SendToServer(cmdType cmd, std::string email, std::string passwd);
 	int ReceiveFromServer();
 	int Chat(std::string user);
 
@@ -42,6 +42,18 @@ public:
 	struct addrinfo hints;
 	SOCKET ConnectSocket;
 	SOCKET ClientSocket;
+
+	enum returnStatus
+	{
+		SUCCESS,
+		INVALID_CREDENTIAL,
+		ACCOUNT_EXISTS,
+		INVALID_PASS,
+		INTERNAL_SERVER_ERROR
+	};
+	returnStatus status;
+	std::string createDate;
+
 
 
 

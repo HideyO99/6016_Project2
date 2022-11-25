@@ -99,13 +99,13 @@ int cTCP_Client::SendToServer(cmdType cmd, std::string email, std::string passwd
 
 int cTCP_Client::ReceiveFromServer()
 {
-	int result = 0;
-//	ProtocolChat frame;
+	//int result = 0;
+
 	const int rcvBuffLen = 512;
 	char rcvBuff[rcvBuffLen];
 
 	int recvResult = recv(ConnectSocket, rcvBuff, rcvBuffLen, 0);
-//
+
 	AuthProtocol::Response responseFromAuthenServer;
 	bool success = responseFromAuthenServer.ParseFromString(rcvBuff);
 	if (!success) {
@@ -118,64 +118,46 @@ int cTCP_Client::ReceiveFromServer()
 	const AuthProtocol::CreateAccountWebFailure& createAccFail = responseFromAuthenServer.createfail(0);
 	if (authSuccess.has_requestid())
 	{
-
+		createDate = authSuccess.creationdate().c_str();
+		status = SUCCESS;
+		return 1;
 	}
 	if (authFail.has_requestid())
 	{
-
+		switch (authFail.fail_reason())
+		{
+		case AuthProtocol::AuthenticateWebFailure_reason_INVALID_CREDENTIALS:
+			status = INVALID_CREDENTIAL;
+			break;
+		case AuthProtocol::AuthenticateWebFailure_reason_INTERNAL_SERVER_ERROR:
+			status = INTERNAL_SERVER_ERROR;
+			break;
+		}
+		return 2;
 	}
 	if (createAccSuccess.has_requestid())
 	{
-
+		status = SUCCESS;
+		return 3;
 	}
 	if (createAccFail.has_requestid())
 	{
-
+		switch (createAccFail.fail_reason())
+		{
+		case AuthProtocol::CreateAccountWebFailure_reason_ACCOUNT_ALREADY_EXISTS:
+			status = ACCOUNT_EXISTS;
+			break;
+		case AuthProtocol::CreateAccountWebFailure_reason_INVALID_PASSWORD:
+			status = INVALID_PASS;
+			break;
+		case AuthProtocol::CreateAccountWebFailure_reason_INTERNAL_SERVER_ERROR:
+			status = INTERNAL_SERVER_ERROR;
+			break;
+		}
+		return 4;
 	}
 
-//	//receive 
-//	int recvResult = recv(ConnectSocket, rcvBuff, rcvBuffLen, 0);
-//	//transfer to buffer
-//	buff.m_buffer.insert(buff.m_buffer.begin(), rcvBuff, rcvBuff + rcvBuffLen);
-//	uint32_t buffLen = buff.ReadInt32BE(0);
-//	buff.m_buffer.resize(buffLen + 1);
-//	uint16_t cmd = buff.ReadShort16BE(4);
-//	uint16_t opcode = buff.ReadShort16BE(6);
-//	uint32_t contentLen = buff.ReadInt32BE(8);
-//	std::string s = buff.ReadString(12, contentLen);
-//
-//	switch (cmd)
-//	{
-//	case 5: // join acknowledge
-//		curRoom.setActiveRoom(roomFlag, true);
-//		break;
-//	case 6: // leave acknowledge
-//		curRoom.setActiveRoom(roomFlag, false);
-//		break;
-//	case 3: // msg 
-//		switch (opcode)
-//		{
-//		case 1:
-//			std::cout << "[Network] ";
-//			break;
-//		case 2:
-//			std::cout << "[Physic] ";
-//			break;
-//		case 3:
-//			std::cout << "[Deploy] ";
-//			break;
-//		default:
-//			break;
-//		}
-//		break;
-//	case 0xff:
-//		break;
-//	default:
-//		break;
-//	}
-//
-//	std::cout << s << std::endl;
-	return result;
+	//return result;
 }
 
 //int cTCP_Client::Chat(std::string user)
