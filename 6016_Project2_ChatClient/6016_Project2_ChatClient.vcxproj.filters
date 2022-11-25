@@ -13,5 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="TCP">
+      <UniqueIdentifier>{519c6d92-f58f-4c80-a32a-35e342f56b71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProtoBuf">
+      <UniqueIdentifier>{1b971209-c32b-4e8a-916f-a02c60513e73}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\TCP\cTCP_Client.cpp">
+      <Filter>TCP</Filter>
+    </ClCompile>
+    <ClCompile Include="source\protobuf\AuthProtocol.pb.cc">
+      <Filter>ProtoBuf</Filter>
+    </ClCompile>
+    <ClCompile Include="source\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\TCP\cTCP_Client.h">
+      <Filter>TCP</Filter>
+    </ClInclude>
+    <ClInclude Include="source\protobuf\AuthProtocol.pb.h">
+      <Filter>ProtoBuf</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
